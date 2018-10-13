@@ -3,13 +3,15 @@ package com.game.src.main;
 import java.awt.*;
 
 public class Menu {
-    int x=Game.WIDTH/2+100,y=100;
+    int x=Game.WIDTH/2+100,y=50;
 
-    public Rectangle playSingleButton = new Rectangle(x+125 , y+50,200,50 );
-    public Rectangle playTwoButton = new Rectangle(x+125 , y+150,200,50 );
-    public Rectangle playThreeButton = new Rectangle(x+125 , y+250,200,50 );
-    public Rectangle helpButton = new Rectangle(x+125, y+350,200,50 );
-    public Rectangle quitButton = new Rectangle(x+125 , y+450,200,50 );
+    public Rectangle play3Button = new Rectangle(x+125 , y+50,200,50 );
+    public Rectangle play4Button = new Rectangle(x+125 , y+150,200,50 );
+    public Rectangle play5Button = new Rectangle(x+125 , y+250,200,50 );
+    public Rectangle play6Button = new Rectangle(x+125, y+350,200,50 );
+    public Rectangle play7Button = new Rectangle(x+125 , y+450,200,50 );
+    public Rectangle quitButton = new Rectangle(x+125 , y+525,200,50 );
+
 
     public void render(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
@@ -29,29 +31,35 @@ public class Menu {
         g.setColor(Color.white);
         Font fnt1 = new Font("arial", Font.BOLD,30);
         g.setFont(fnt1);
-        g2d.draw(playSingleButton);
-        g.drawString("Single Player", playSingleButton.x+5, playSingleButton.y+35 );
+        g2d.draw(play3Button);
+        g.drawString("3 Player", play3Button.x+35, play3Button.y+35 );
 
         g.setColor(Color.lightGray);
         g.fillRect(x+125 , y+150,200,50 );
         g.setColor(Color.white);
-        g2d.draw(playTwoButton);
-        g.drawString("Two Players", playTwoButton.x+10, playTwoButton.y+35 );
+        g2d.draw(play4Button);
+        g.drawString("4 Player", play4Button.x+35, play4Button.y+35 );
 
         g.setColor(Color.lightGray);
         g.fillRect(x+125 , y+250,200,50 );
         g.setColor(Color.white);
-        g2d.draw(playThreeButton);
-        g.drawString("Three Players", playThreeButton.x+2, playThreeButton.y+35 );
+        g2d.draw(play5Button);
+        g.drawString("5 Player", play5Button.x+35, play5Button.y+35 );
 
         g.setColor(Color.lightGray);
         g.fillRect(x+125 , y+350,200,50 );
         g.setColor(Color.white);
-        g2d.draw(helpButton);
-        g.drawString("Help", helpButton.x+65, helpButton.y+35 );
+        g2d.draw(play6Button);
+        g.drawString("6 Player", play6Button.x+35, play6Button.y+35 );
 
         g.setColor(Color.lightGray);
         g.fillRect(x+125 , y+450,200,50 );
+        g.setColor(Color.white);
+        g2d.draw(play7Button);
+        g.drawString("7 Player", play7Button.x+35, play7Button.y+35 );
+
+        g.setColor(Color.lightGray);
+        g.fillRect(x+125 , y+525,200,50 );
         g.setColor(Color.white);
         g2d.draw(quitButton);
         g.drawString("Quit", quitButton.x+65, quitButton.y+35 );

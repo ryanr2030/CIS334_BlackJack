@@ -11,50 +11,95 @@ import javax.swing.JButton;
 import javax.swing.*;
 
 public class Game extends Canvas implements Runnable{
+
+    //Sets resolution to 1280x640
     public static final int WIDTH = 640;
     public static final int HEIGHT = WIDTH / 12 * 6;
     public static final int SCALE = 2;
     public final String TITLE ="Simple Black Jack Game";
-
     //used to start the game
     private boolean running = false;
+
+    //threads to allow multithreading
     private Thread thread;
 
     //buffers the entire game window
-    private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+
+    //contains all the card images
     private BufferedImage spriteSheet = null;
+
+    //contains the poker table background during the game
     private BufferedImage gameBoard = null;
+    //contains the background image for the menu
     private BufferedImage menuBackground = null;
+    //contains a facedown card used to paint the deck in each frame
     private BufferedImage deckImg = null;
 
+    //declare a computer player
     private Computer c;
-    protected Player p1,p2,p3;
-    int p1x,p1y,p2x,p2y,p3x,p3y;
+
+    //declare the number of possible players in the game
+    protected Player p1,p2,p3,p4, p5, p6, p7;
+    //used to tell how many players to initialize
+    private int pcount=0;
+
+    //Create a deck object
     public Deck deck = new Deck();
+
+    //frame to be painted on
     private JFrame frame;
+
+    //declare the menu ui in the game class
     private Menu menu;
-    protected int pot=0, initializer=0;
+
+    //pot will be used to distribute the winnings to the winning player during the end state
+    //initializer is used to make sure player assignment is not repeated
+    public int pot=0, initializer=0;
     MouseInput mouse;
 
+    /*Enumeration list to control the game.
 
+    These are the most important part of the game because they tell the game loop what to draw
+    in each frame.
+
+        STATE FLOW: MENU--> ANTE-->PLAYER1_TURN-->...-->PLAYERN_TURN-->COMPUTER_TURN-->ANTE-->PLAYER1_TURN-->...-->PLAYERN_TURN-->COMPUTER_TURN
+                    -->END_GAME
+
+        MENU functionality: displays the menu gui transitions to Ante with the selected amount of players
+
+        ANTE functionality:initialize the correct number of player objects, allow each player to bet or fold,
+                            deal two cards to two each player the comp, transitions to Player1's turn
+             gui paints: deal animation, display cards in hand of players that bet, (optional)fold/hit button click animations,
+                        (optional) display a chip when a player bets, paint gameboard, and player ui (i.e. player # buttons and wallet value)
+                        Add current turn indicator
+        PLAYER_TURN functionality: Checks if the player busted(including ace exception), Allows the player to hit (Max of 4 times) or fold,
+                    checks if another play has black jack (forces cur player to hit till bust or they also get blackjack),
+                    transitions to either next player's turn or the computer's turn
+              gui paints: draw animation for each hit, display the current hand with hit updates, if fold remove hit, stay, and fold buttons and remove cards
+        COMPUTER_TURN: Checks the scores of all of the other players, if the computer is losing hits until it wins or if it busts same paint animation
+                        display the winner's name across the screen clicking anywhere on the screen starts the next hand
+
+        END GAME: occurs if all players run out of money or if a certain key is pressed should return back to the MENU state
+    */
     public static enum STATE{
         MENU,
-        GAMESTART1,
-        GAMESTART2,
-        GAMESTART3,
-        ANTE1,
-        ANTE2,
-        ANTE3,
+        ANTE,
         HELP,
         COMPUTER_TURN,
         PLAYER1_TURN,
         PLAYER2_TURN,
-        PLAYER3_TURN
+        PLAYER3_TURN,
+        PLAYER4_TURN,
+        PLAYER5_TURN,
+        PLAYER6_TURN,
+        PLAYER7_TURN,
+        END_GAME
 
     }
 
     protected static STATE State = STATE.MENU;
 
+    //initialize the game
     public void init(){
         BufferedImageLoader loader = new BufferedImageLoader();
         try{
@@ -64,9 +109,14 @@ public class Game extends Canvas implements Runnable{
         }catch(IOException e){
             e.printStackTrace();
         }
+        //sets the deck with each card object
         deck.set();
+        //shuffles the deck
         deck.shuffle();
+
+        //makes all the sprites available to the game
         SpriteSheet ss = new SpriteSheet(spriteSheet);
+
         deckImg=ss.grabImage(26,2,75,109);
         mouse= new MouseInput();
         menu= new Menu();
@@ -139,77 +189,18 @@ public class Game extends Canvas implements Runnable{
 
     //everything in the game that updates
     private void tick(){
-        if(State==STATE.ANTE1 && initializer ==0){
-            p1 = new Player(600, 300,this );
-            initializer =1;
+        if(State==STATE.ANTE ) {
 
         }
-        else if (State==STATE.ANTE2 && initializer==0){
-            p1 = new Player(500, 300,this );
-            p2 = new Player(700, 300, this);
-            initializer =1;
-
-        }
-        else if (State==STATE.ANTE3 && initializer==0){
-            p1 = new Player(300, 300, this);
-            p2 = new Player(600, 300, this);
-            p3 = new Player(900, 300, this);
-            initializer =1;
-        }
-        else if(State == STATE.GAMESTART1) {
-            if(initializer==1) {
-
-                p1.getCard(deck.draw());
-                p1.getCard(deck.draw());
-                c.getCard(deck.draw());
-                c.getCard(deck.draw());
-
-                initializer=2;
-            }
-            p1.deal();
-            c.deal();
-
-
-        }
-        else if(State == STATE.GAMESTART2) {
-            if(initializer==1) {
-                p1.getCard(deck.draw());
-                p1.getCard(deck.draw());
-                p2.getCard(deck.draw());
-                p2.getCard(deck.draw());
-                c.getCard(deck.draw());
-                c.getCard(deck.draw());
-
-                initializer=2;
-            }
-            p1.deal();
-            p2.deal();
-            c.deal();
-        }
-        else if(State == STATE.GAMESTART3) {
-            if(initializer==1) {
-                p1.getCard(deck.draw());
-                p1.getCard(deck.draw());
-                p2.getCard(deck.draw());
-                p2.getCard(deck.draw());
-                p3.getCard(deck.draw());
-                p3.getCard(deck.draw());
-                c.getCard(deck.draw());
-                c.getCard(deck.draw());
-
-                initializer=2;
-            }
-            p1.deal();
-            p2.deal();
-            p3.deal();
-            c.deal();
+        else if(State == STATE.PLAYER1_TURN){
+                dealHands();
         }
         else if(State == STATE.MENU){
 
         }
     }
 
-    //everything in the game that renders
+    //everything in the game that renders must be drawn or have another object call
     private void render(){
         //buffer strategy handles all behind the scenes buffering
         //initialize buffer strategy
@@ -217,7 +208,7 @@ public class Game extends Canvas implements Runnable{
 
         //create 3 buffers to load 2 images ahead of what is being projected
         if(bs == null){
-            createBufferStrategy(3);
+            createBufferStrategy(2);
             return;
         }
 
@@ -229,37 +220,41 @@ public class Game extends Canvas implements Runnable{
         if (State!=STATE.MENU) {
             drawBackground(g);
             drawDeck(g);
-        }
-        if(State == STATE.ANTE1 && initializer==1){
-            p1.render(g);
-            c.render(g);
-        }
-        else if(State == STATE.ANTE2 && initializer==1){
-            p1.render(g);
-            p2.render(g);
-            c.render(g);
-        }
-        else if(State == STATE.ANTE3 && initializer==1){
-            p1.render(g);
-            p2.render(g);
-            p3.render(g);
-            c.render(g);
-        }
-        else if(State == STATE.GAMESTART1 && initializer==2) {
-
+            drawPot(g);
 
         }
-        else if(State == STATE.GAMESTART2 && initializer==2) {
-
-
-        }
-        else if(State == STATE.GAMESTART3 && initializer==2) {
-
-
-
+        if(State == STATE.ANTE ) {
+            drawHands(g);
 
         }
-        else if(State == STATE.MENU){
+        if(State == STATE.PLAYER1_TURN){
+            drawHands(g);
+        }
+        if(State == STATE.PLAYER2_TURN){
+            drawHands(g);
+        }
+        if(State == STATE.PLAYER3_TURN){
+            drawHands(g);
+        }
+        if(State == STATE.PLAYER4_TURN){
+            drawHands(g);
+        }
+        if(State == STATE.PLAYER5_TURN){
+            drawHands(g);
+        }
+        if(State == STATE.PLAYER6_TURN){
+            drawHands(g);
+        }
+        if(State == STATE.PLAYER7_TURN){
+            drawHands(g);
+        }
+        if(State == STATE.COMPUTER_TURN){
+            drawHands(g);
+        }
+        if(State == STATE.END_GAME){
+            drawHands(g);
+        }
+        if(State == STATE.MENU){
             g.drawImage(menuBackground, 0, 0, null);
             menu.render(g);
 
@@ -276,17 +271,17 @@ public class Game extends Canvas implements Runnable{
 
         //create the instance of our game
 
-        //Create Scale Sizes for a game window
 
         //current frame we're working in
         JFrame frame = new JFrame("Black Jack");
 
+        //Create Scale Sizes for a game window
         Game game = new Game();
         game.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
         game.setMaximumSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
         game.setMinimumSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
         game.setFrame(frame);
-        //add the game instance to the frame currently only the dimensions
+        //add the game instance to the frame currently 1280x640
         frame.add(game);
 
 
@@ -309,22 +304,106 @@ public class Game extends Canvas implements Runnable{
 
 
     }
+    //sets the values in each player's hand
+    public void setHands(){
+        if(pcount>=1 && p1.getAnte()==true){
+            p1.getCard(deck.draw());
+            p1.getCard(deck.draw());
+        }
+        if(pcount>=2 && p2.getAnte()==true){
+            p2.getCard(deck.draw());
+            p2.getCard(deck.draw());
+        }
+        if(pcount>=3 && p3.getAnte()==true){
+            p3.getCard(deck.draw());
+            p3.getCard(deck.draw());
+        }
+        if(pcount>=4 && p4.getAnte()==true){
+            p4.getCard(deck.draw());
+            p4.getCard(deck.draw());
+        }
+        if(pcount>=5 && p5.getAnte()==true){
+            p5.getCard(deck.draw());
+            p5.getCard(deck.draw());
+        }
+        if(pcount>=6 && p6.getAnte()==true){
+            p6.getCard(deck.draw());
+            p6.getCard(deck.draw());
+        }
+        if(pcount>=7 && p7.getAnte()==true){
+            p7.getCard(deck.draw());
+            p7.getCard(deck.draw());
+        }
+        c.getCard(deck.draw());
+        c.getCard(deck.draw());
 
+    }
+    //updates the x and y coordinates of the dealed hands to provide the animation
+    private void dealHands(){
+        if(pcount>=1 && p1.getAnte()==true){
+            p1.deal();
+        }
+        if(pcount>=2 && p2.getAnte()==true){
+            p2.deal();
+        }
+        if(pcount>=3 && p3.getAnte()==true){
+            p3.deal();
+        }
+        if(pcount>=4 && p4.getAnte()==true){
+            p4.deal();
+        }
+        if(pcount>=5 && p5.getAnte()==true){
+            p5.deal();
+        }
+        if(pcount>=6 && p6.getAnte()==true){
+            p6.deal();
+        }
+        if(pcount>=7 && p7.getAnte()==true){
+            p7.deal();
+        }
+        c.deal();
+    }
     public BufferedImage getSpriteSheet(){
         return spriteSheet;
     }
-
-    public void setFrame(JFrame frame ){
-        this.frame=frame;
+//Calls the render function of each player that is in the game to draw their current hand each frame
+    public void drawHands(Graphics g){
+        if(pcount>=1){
+            p1.render(g);
+        }
+        if(pcount>=2 ){
+            p2.render(g);
+        }
+        if(pcount>=3 ){
+            p3.render(g);
+        }
+        if(pcount>=4){
+            p4.render(g);
+        }
+        if(pcount>=5 ){
+            p5.render(g);
+        }
+        if(pcount>=6 ){
+            p6.render(g);
+        }
+        if(pcount>=7 ){
+            p7.render(g);
+        }
+        c.render(g);
     }
-    public JFrame getFrame(){
-        return frame;
-    }
-
+//draws the background game board
     public void drawBackground(Graphics g){
         g.drawImage(gameBoard, 0, 0, null);
 
     }
+    //drwas the value of the pot
+    public void drawPot(Graphics g){
+        Font fnt1 = new Font("arial", Font.BOLD,20);
+        g.setFont(fnt1);
+        g.drawString("Pot Value $"+pot,600, 220 );
+    }
+
+    //draws the deck image next to the computer's hand
     public void drawDeck(Graphics g){
         for (int i = 0; i < 15; i++) {
             int k = i + 2;
@@ -333,5 +412,19 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
+    //getters and setters for utility
+    public int getPcount(){
+        return pcount;
+    }
 
+    public void setPcount(int i){
+        pcount=i;
+    }
+
+    public void setFrame(JFrame frame ){
+        this.frame=frame;
+    }
+    public JFrame getFrame(){
+        return frame;
+    }
 }

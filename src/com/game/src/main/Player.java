@@ -5,26 +5,43 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 public class Player {
-    private double x,x2,y,y2;
-    private boolean ante, fold;
+    private int x,x2,y,y2;
+    private boolean ante, fold, isTurn, isBust=false;
     private int wallet=1000, handVal=0, pid, count;
+    public int betx, hitx, foldx, stayx, bwidth, by, bheight;
     private card[] hand=new card[6];
     private static int playerCount=1;
     private SpriteSheet ss;
     private JFrame frame;
+    private Game game;
+
 
 
 
 
     private int cardCol, cardRow;
-    private BufferedImage card1,card2, card3, card4, card5, card6, background, facedown;
+    private BufferedImage card1,card2, card3, card4, card5, card6, facedown, turn_indicator;
 
-    public Player(double X, double Y, Game game){
-        game.addMouseListener(new MouseInput());
+    public Player(int X, int Y, Game game){
+
+        game.addMouseListener(new MouseInput(game));
         ante=false;
         fold=false;
+        this.game=game;
+
+        // sets the center where the card images will be drawn
         x = X;
         y = Y;
+        //button locations relative to the center
+        betx=x+5;
+        hitx=betx;
+        foldx=x+65;
+        stayx=x+35;
+        bwidth=25;
+        by=y+155;
+        bheight=25;
+
+        //location of the computer's deck used for card dealing animation
         x2=465;
         y2=75;
         count=0;
@@ -36,15 +53,36 @@ public class Player {
 
 
         facedown=ss.grabImage(26,2,75,109);
+        turn_indicator=ss.grabImage(27,2,75,109);
 
 
 
     }
+
 
     public void tick() {
-        //draw card annimation add event listener
     }
 
+    public void render(Graphics g){
+        g.drawImage(facedown,(int)x2, (int)y2,null);
+        if(Game.State==Game.STATE.ANTE){
+            drawPlayerPanel(g);
+            drawButtons(g);
+
+        }
+        if(Game.State!=Game.STATE.MENU && Game.State!=Game.STATE.ANTE) {
+            drawPlayerPanel(g);
+            drawButtons(g);
+            if (x2 == x && y2 == y) {
+                drawHand(g);
+                drawButtons(g);
+            }
+        }
+
+    }
+
+    //creates the dealing animation by updating a drawn facedown card that sits on the top of the deck to the location of
+    //the player's hand. When it reaches the location the player's hand is redrawn
     public void deal(){
             if (x < x2) {
                 x2 -= 5;
@@ -61,7 +99,7 @@ public class Player {
 
     }
 
-
+//places a card in the deck
     public void hit(card C){
         if(bust()==false){
             getCard(C);
@@ -69,22 +107,28 @@ public class Player {
         }
 
     }
+
+    //check if a player busted includes an if ace handler
     public boolean bust(){
+        getHandVal();
         if(handVal>21){
             if(containsAce()==true){
                 getHandVal();
                 bust();
             }
             else
+                isBust=true;
                 return true;
         }
         return false;
     }
 
 
-
+    //checks if the hand contains an ace. Only called if the player has already busted.
+    //If an ace is found the value of the ace is reset to 2. It will loop through this
+    //if there are multiple aces
     public boolean containsAce(){
-        for(int i =0; i<6; i++){
+        for(int i =0; i<count; i++){
             if (hand[count].getValue()==11){
                 hand[count].setValue(2);
                 return true;
@@ -92,29 +136,27 @@ public class Player {
         }
         return false;
     }
+
+    //returns the current value of the hand
     public int getHandVal(){
-        for (int i=0; i<6; i++){
+        handVal=0;
+        for (int i=0; i<count; i++){
             handVal+=hand[i].getValue();
         }
         return handVal;
     }
+
+    //Handles the bet function
     public void bet(){
-        if (wallet>100) {
+        if (wallet>=100 && ante==false) {
+            game.pot+=100;
             ante=true;
             wallet -= 100;
         }
 
     }
-    public void fold(){
-        fold=true;
-    }
 
-    public boolean getFold(){
-        return fold;
-    }
-    public boolean getAnte(){
-        return ante;
-    }
+    //gets the image of each card in the hand
     public void getCard(card C1){
         if (count<6) {
             hand[count] = C1;
@@ -138,55 +180,50 @@ public class Player {
         }
         count ++;
     }
-    public void render(Graphics g){
-        g.drawImage(facedown,(int)x2, (int)y2,null);
-        if(Game.State==Game.STATE.ANTE1 | Game.State==Game.STATE.ANTE2 |Game.State==Game.STATE.ANTE3){
-            drawPlayerPanel(g);
-            drawButtons(g);
-        }
-        if(Game.State==Game.STATE.GAMESTART1 | Game.State==Game.STATE.GAMESTART2 |Game.State==Game.STATE.GAMESTART3) {
-            drawPlayerPanel(g);
-            drawButtons(g);
-            if (x2 == x && y2 == y) {
-                drawHand(g);
-            }
-        }
-
-    }
 
 
 
+//DRAWING FUNCTIONS FOR THE PLAYER PANEL AND PANEL BUTTONS
     public void button(String title, int x, int y, int width, int height, Graphics g){
         g.setColor(Color.white);
         g.fillRect(x , y, width, height);
         g.setColor(Color.black);
         g.drawRect(x , y, width, height);
+        Font fnt1 = new Font("arial", Font.BOLD,9);
+        g.setFont(fnt1);
         g.drawString(title, x+width/5, y+2*height/3);
     }
     public void drawButtons(Graphics g){
-        if(Game.State==Game.STATE.ANTE1 | Game.State==Game.STATE.ANTE2 |Game.State==Game.STATE.ANTE3){
-            button("Bet", (int)(x+60), (int)(y+180), 40, 25, g);
-            button("Fold", (int) (x + 120), (int) (y + 180), 40, 25, g);
+        if(Game.State==Game.STATE.ANTE ){
+            button("Bet", betx, by, bwidth, bheight, g);
+            button("Fold", foldx, by, bwidth, bheight, g);
 
         }
-        else if (Game.State==Game.STATE.GAMESTART1 | Game.State==Game.STATE.GAMESTART2 |Game.State==Game.STATE.GAMESTART3) {
-            button("Hit", (int) (x + 60), (int) (y + 180), 40, 25, g);
-            button("Fold", (int) (x + 120), (int) (y + 180), 40, 25, g);
+        else if (Game.State!=Game.STATE.MENU| Game.State!=Game.STATE.ANTE) {
+            button("Hit", betx, by, bwidth, bheight, g);
+            button("Stay", stayx, by, bwidth, bheight, g);
+            button("Fold", foldx, by, bwidth, bheight, g);
         }
 
     }
     public void drawPlayerPanel(Graphics g){
         g.setColor(Color.lightGray);
-        g.fillRect((int)x +40, (int)y+150, 175, 80);
+        g.fillRect(x, (int)y+125, 100, 60);
         g.setColor(Color.black);
-        g.drawRect((int)x+40 , (int)y+150, 175, 80);
-        Font fnt1 = new Font("arial", Font.BOLD,15);
+        g.drawRect(x , y+125, 100, 60);
+        Font fnt1 = new Font("arial", Font.BOLD,12);
         g.setFont(fnt1);
-
-        g.drawString("Player "+pid+": $"+wallet, (int)x+45, (int)y+165);
+        g.drawString("Player "+pid+": $"+wallet, (int)x+5, (int)y+145);
+        if(isTurn==true){
+            g.drawImage(turn_indicator, x+15, y+175, null);
+        }
+        if(isBust==true){
+            fnt1= new Font("arial", Font.BOLD, 20);
+            g.drawString("BUST", x+35, y+155);
+        }
 
     }
-
+//DRAWS THE CARD HAND
     public void drawHand(Graphics g){
             if (card1 !=null) {
                 g.drawImage(card1, (int) x, (int) y, null);
@@ -209,8 +246,29 @@ public class Player {
 
     }
 
+    //getters and setters for handling whether a player bet, folded, is their turn, might need one for stay too
+    public void setFold(){
+        fold=true;
+    }
+
+    public boolean getFold(){
+        return fold;
+    }
+    public boolean getAnte(){
+        return ante;
+    }
+
+    public void setAnte(boolean ante){
+        this.ante=ante;
+    }
+    public void setTurn(boolean turn){
+        isTurn=turn;
+    }
+    public boolean getIsTurn(){
+        return isTurn;
+    }
     public int getX(){
-        return (int)x;
+        return x;
 
     }
     public int getY(){

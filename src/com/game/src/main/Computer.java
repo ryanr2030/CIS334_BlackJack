@@ -4,10 +4,13 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 
-
+/*
+NEEDS TO BE UPDATED AFTER WE GET THE PLAYER_TURN STATE WORKING
+ */
 public class Computer {
     private double x,x2,y,y2;
     private int count;
+    private boolean isTurn=false;
     private int wallet=1000;
     private card[] hand=new card[6];
 
@@ -16,7 +19,7 @@ public class Computer {
 
     private BufferedImage handImg, background, facedown;
     public Computer(double X, double Y, Game game){
-        game.addMouseListener(new MouseInput());
+        game.addMouseListener(new MouseInput(game));
 
         x = X;
         y = Y;
@@ -64,7 +67,7 @@ public class Computer {
         count ++;
     }
     public void render(Graphics g){
-        if(Game.State==Game.STATE.GAMESTART1 | Game.State==Game.STATE.GAMESTART2 |Game.State==Game.STATE.GAMESTART3 ) {
+        if(Game.State!=Game.STATE.MENU | Game.State!=Game.STATE.ANTE) {
             g.drawImage(facedown, (int) x2, (int) y2, null);
 
             if (x2 == x && y2 == y) {
