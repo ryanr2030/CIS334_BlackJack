@@ -132,9 +132,32 @@ public class MouseInput implements MouseListener{
         //STATE CONTROL FOR THE BUTTONS IN THE ANTE STATE
         // First 7 handle each player's bet button
         // Second 7 handle each player's fold button
-
+        if(Game.State==Game.STATE.NEW_HAND){
+            game.deck.set();
+            if(game.pcount>=1){
+                game.p1.setAnte(false);
+            }
+            if(game.pcount>=2){
+                game.p2.setAnte(false);
+            }
+            if(game.pcount>=3){
+                game.p3.setAnte(false);
+            }
+            if(game.pcount>=4){
+                game.p4.setAnte(false);
+            }
+            if(game.pcount>=5){
+                game.p5.setAnte(false);
+            }
+            if(game.pcount>=6){
+                game.p6.setAnte(false);
+            }
+            if(game.pcount>=7 ){
+                game.p7.setAnte(false);
+            }
+            game.c.money=false;
+        }
         if (Game.State == Game.STATE.ANTE) {
-
             if (mx >= game.p1.betx && mx <= game.p1.betx + game.p1.bwidth && game.p1.getIsTurn() == true) {
                 //Bet Button Clicked
                 if (my >= game.p1.by && my <= game.p1.by + game.p1.bheight) {
@@ -345,13 +368,7 @@ public class MouseInput implements MouseListener{
 
 
         }
-        /*
-        ******************************************************************
-        *********************TO DO****************************************
-        ******************************************************************
-         make the hit fold and stay button work for each player
-         if we get it working for 1 player we just copy and paste it 6 times and change the variables
-         */
+
 
         if (Game.State == Game.STATE.PLAYER_TURN) {
             if (turns == true) {
@@ -381,6 +398,15 @@ public class MouseInput implements MouseListener{
                         turnList.remove(0);
                         game.p1.setTurn(false);
                     }
+                    else if (game.p1.getHandVal() > 21) {
+                        System.out.println("Player 1 Busted:" + game.p1.getHandVal());
+                        turnList.remove(0);
+                        game.p1.setTurn(false);
+                     }
+                    else if(game.p1.getHandVal()==21){
+                        turnList.remove(0);
+                        game.p1.setTurn(false);
+                    }
                     //hit pressed
                     else if (mx >= game.p1.betx && mx <= game.p1.betx + game.p1.bwidth && my >= game.p1.by && my <= game.p1.by + game.p1.bheight && game.p1.hcount < 4) {
                         game.p1.hit(game.deck.draw());
@@ -388,6 +414,11 @@ public class MouseInput implements MouseListener{
                         System.out.println("HIT CLICKED");
                         if (game.p1.getHandVal() > 21) {
                             System.out.println("Player 1 Busted:" + game.p1.getHandVal());
+                            turnList.remove(0);
+                            game.p1.setTurn(false);
+                        }
+
+                        if(game.p1.getHandVal()==21){
                             turnList.remove(0);
                             game.p1.setTurn(false);
                         }
@@ -399,6 +430,10 @@ public class MouseInput implements MouseListener{
                         game.p2.setTurn(true);
                     if (game.p2.getHandVal() > 21) {
                         System.out.println("Player 2 Busted:" + game.p2.getHandVal());
+                        turnList.remove(0);
+                        game.p2.setTurn(false);
+                    }
+                    else if(game.p2.getHandVal()==21){
                         turnList.remove(0);
                         game.p2.setTurn(false);
                     }
@@ -417,6 +452,10 @@ public class MouseInput implements MouseListener{
                             turnList.remove(0);
                             game.p2.setTurn(false);
                         }
+                        if(game.p2.getHandVal()==21){
+                            turnList.remove(0);
+                            game.p2.setTurn(false);
+                        }
                     }
 
                 }
@@ -425,6 +464,10 @@ public class MouseInput implements MouseListener{
                         game.p3.setTurn(true);
                     if (game.p3.getHandVal() > 21) {
                         System.out.println("Player 3 Busted:" + game.p3.getHandVal());
+                        turnList.remove(0);
+                        game.p3.setTurn(false);
+                    }
+                    else if(game.p3.getHandVal()==21){
                         turnList.remove(0);
                         game.p3.setTurn(false);
                     }
@@ -443,7 +486,10 @@ public class MouseInput implements MouseListener{
                             turnList.remove(0);
                             game.p3.setTurn(false);
                         }
-
+                        if(game.p3.getHandVal()==21){
+                            turnList.remove(0);
+                            game.p3.setTurn(false);
+                        }
                     }
 
                 }
@@ -453,6 +499,10 @@ public class MouseInput implements MouseListener{
                         game.p4.setTurn(true);
                     if (game.p4.getHandVal() > 21) {
                         System.out.println("Player 4 Busted:" + game.p4.getHandVal());
+                        turnList.remove(0);
+                        game.p4.setTurn(false);
+                    }
+                    else if(game.p4.getHandVal()==21){
                         turnList.remove(0);
                         game.p4.setTurn(false);
                     }
@@ -471,6 +521,10 @@ public class MouseInput implements MouseListener{
                             turnList.remove(0);
                             game.p4.setTurn(false);
                         }
+                        if(game.p4.getHandVal()==21){
+                            turnList.remove(0);
+                            game.p4.setTurn(false);
+                        }
                     }
 
                 }
@@ -479,6 +533,10 @@ public class MouseInput implements MouseListener{
                         game.p5.setTurn(true);
                     if (game.p5.getHandVal() > 21) {
                         System.out.println("Player 5 Busted:" + game.p5.getHandVal());
+                        turnList.remove(0);
+                        game.p5.setTurn(false);
+                    }
+                    else if(game.p5.getHandVal()==21){
                         turnList.remove(0);
                         game.p5.setTurn(false);
                     }
@@ -497,6 +555,10 @@ public class MouseInput implements MouseListener{
                             turnList.remove(0);
                             game.p5.setTurn(false);
                         }
+                        if(game.p5.getHandVal()==21){
+                            turnList.remove(0);
+                            game.p5.setTurn(false);
+                        }
                     }
 
                 }
@@ -505,6 +567,10 @@ public class MouseInput implements MouseListener{
                         game.p6.setTurn(true);
                     if (game.p6.getHandVal() > 21) {
                         System.out.println("Player 6 Busted:" + game.p6.getHandVal());
+                        turnList.remove(0);
+                        game.p6.setTurn(false);
+                    }
+                    else if(game.p6.getHandVal()==21){
                         turnList.remove(0);
                         game.p6.setTurn(false);
                     }
@@ -523,6 +589,10 @@ public class MouseInput implements MouseListener{
                             turnList.remove(0);
                             game.p6.setTurn(false);
                         }
+                        if(game.p6.getHandVal()==21){
+                            turnList.remove(0);
+                            game.p6.setTurn(false);
+                        }
                     }
 
                 }
@@ -531,6 +601,10 @@ public class MouseInput implements MouseListener{
                         game.p7.setTurn(true);
                     if (game.p7.getHandVal() > 21) {
                         System.out.println("Player 7 Busted:" + game.p7.getHandVal());
+                        turnList.remove(0);
+                        game.p7.setTurn(false);
+                    }
+                    else if(game.p7.getHandVal()==21){
                         turnList.remove(0);
                         game.p7.setTurn(false);
                     }
@@ -549,6 +623,10 @@ public class MouseInput implements MouseListener{
                             turnList.remove(0);
                             game.p7.setTurn(false);
                         }
+                        if(game.p7.getHandVal()==21){
+                            turnList.remove(0);
+                            game.p7.setTurn(false);
+                        }
                     }
 
                 }
@@ -558,7 +636,12 @@ public class MouseInput implements MouseListener{
 
 
         }
-
+        /*
+        ******************************************************************
+        *********************TO DO****************************************
+        ******************************************************************
+        Time DELAY COMPUTER HITTING!!!
+         */
         if (Game.State == Game.STATE.COMPUTER_TURN) {
             int maxhand=game.c.getMaxHand();
             while (game.c.getHandVal() < 22 && game.c.getHandVal() <= maxhand) {
@@ -568,9 +651,18 @@ public class MouseInput implements MouseListener{
                 while(game.c.winner.size()!=0){
                     game.c.winner.remove(0);
                 }
-                game.c.winner.add("Computer Wins!!");
+                game.c.winner.add("Computer");
             }
+                Game.State=Game.STATE.END_GAME;
+                System.out.println(game.c.winner);
+
         }
+        if (Game.State== Game.STATE.END_GAME){
+            game.c.winnings();
+            //define start next hand button
+
+        }
+
     }
 
     @Override

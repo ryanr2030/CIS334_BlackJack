@@ -8,7 +8,7 @@ public class Player {
     private int x,x2,y,y2;
     public int hcount=0;
     private boolean ante, isTurn, fold, isBust=false, stay=false;
-    private int wallet=1000, handVal=0, pid, count;
+    protected int wallet=1000, handVal=0, pid, count;
     public int betx, hitx, foldx, stayx, bwidth, by, bheight;
     private card[] hand=new card[6];
     private static int playerCount=1;
@@ -184,12 +184,12 @@ public class Player {
         g.drawString(title, x+width/5, y+2*height/3);
     }
     public void drawButtons(Graphics g){
-        if(Game.State==Game.STATE.ANTE ){
+        if(Game.State==Game.STATE.ANTE || Game.State==Game.STATE.NEW_HAND){
             button("Bet", betx, by, bwidth, bheight, g);
             button("Fold", foldx, by, bwidth, bheight, g);
 
         }
-        else if (Game.State!=Game.STATE.MENU| Game.State!=Game.STATE.ANTE) {
+        else if (Game.State!=Game.STATE.MENU | Game.State!=Game.STATE.ANTE || Game.State!=Game.STATE.NEW_HAND) {
             button("Hit", betx, by, bwidth, bheight, g);
             button("Stay", stayx, by, bwidth, bheight, g);
         }
@@ -206,15 +206,15 @@ public class Player {
         if(isTurn==true){
             g.drawImage(turn_indicator, x+15, y+175, null);
         }
-        if(getHandVal()>21){
-            fnt1= new Font("arial", Font.BOLD, 80);
-            g.drawString("BUST", x+35, y+195);
+        if(game.State!=Game.STATE.ANTE || game.State!=Game.STATE.NEW_HAND) {
+            if (getHandVal() > 21) {
+                fnt1 = new Font("arial", Font.BOLD, 80);
+                g.drawString("BUST", x + 35, y + 195);
+            } else {
+                fnt1 = new Font("arial", Font.BOLD, 80);
+                g.drawString("Hand:" + getHandVal(), x + 30, y + 195);
+            }
         }
-        else{
-            fnt1= new Font("arial", Font.BOLD, 80);
-            g.drawString("Hand:"+getHandVal(), x+30, y+195);
-        }
-
     }
     //DRAWS THE PLAYER'S HAND VALUE
 

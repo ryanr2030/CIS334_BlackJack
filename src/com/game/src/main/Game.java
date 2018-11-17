@@ -1,12 +1,9 @@
 package com.game.src.main;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.swing.JButton;
 
 import javax.swing.*;
 
@@ -88,7 +85,8 @@ public class Game extends Canvas implements Runnable{
         HELP,
         COMPUTER_TURN,
         PLAYER_TURN,
-        END_GAME
+        END_GAME,
+        NEW_HAND
 
     }
 
@@ -125,6 +123,7 @@ public class Game extends Canvas implements Runnable{
     }
 
     //starts our thread to run the game loop on
+
     private synchronized void start(){
         if (running)
             return;
@@ -173,9 +172,9 @@ public class Game extends Canvas implements Runnable{
             }
             render();
             frames++;
+
             if(System.currentTimeMillis()-timer>1000){
                timer+=1000;
-               System.out.println(updates+" Ticks, FPS "+frames);
                updates=0;
                frames=0;
             }
@@ -187,7 +186,7 @@ public class Game extends Canvas implements Runnable{
     private void tick(){
         if(State==STATE.ANTE ) {
         }
-        else if(State == STATE.PLAYER_TURN){
+        else if(State == STATE.PLAYER_TURN || State==STATE.COMPUTER_TURN){
                 dealHands();
         }
         else if(State == STATE.MENU){

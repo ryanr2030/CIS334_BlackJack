@@ -9,11 +9,16 @@ import java.util.ArrayList;
 NEEDS TO BE UPDATED AFTER WE GET THE PLAYER_TURN STATE WORKING
  */
 public class Computer {
-    private double x,x2,y,y2;
+    private int x,x2,y,y2;
     private int count;
     private card[] hand=new card[6];
     public int hcount=0;
-    private boolean ante, isTurn, fold, isBust=false, stay=false;
+    private boolean ante;
+    private boolean isTurn;
+    private boolean fold;
+    private boolean isBust=false;
+    private boolean stay=false;
+    protected boolean money=false;
     private int wallet=1000, handVal=0, maxHand=0;
     private SpriteSheet ss;
     private Game game;
@@ -27,7 +32,7 @@ public class Computer {
     private BufferedImage card1,card2, card3, card4, card5, card6, facedown, turn_indicator;
 
 
-    public Computer(double X, double Y, Game game){
+    public Computer(int X, int Y, Game game){
         this.game=game;
         game.addMouseListener(new MouseInput(game));
         x = X;
@@ -78,13 +83,20 @@ public class Computer {
         if(Game.State==Game.STATE.COMPUTER_TURN) {
             compPanel(g);
         }
+        if(Game.State==Game.STATE.END_GAME){
+            drawWinner(g);
+        }
     }
 
     //Computer panel
     public void compPanel(Graphics g){
                 g.drawImage(turn_indicator, (int)x-200, (int)y, null);
                 Font fnt1 = new Font("arial", Font.BOLD, 100);
-                g.drawString("Hand:" + getHandVal(), (int)x + 50, (int)y+125 );
+                if(getHandVal()>21){
+                    g.drawString("BUST", (int)x + 50, (int)y+125 );
+                }
+                else
+                    g.drawString("Hand:" + getHandVal(), (int)x + 50, (int)y+125 );
     }
     //places a card in the deck
     public void hit(card C){
@@ -238,12 +250,57 @@ public class Computer {
         count ++;
     }
 
+    //distributes the winnings
+    public void winnings(){
+        ArrayList<String> winners= new ArrayList<String>();
+        for(int i=0; i<winners.size(); i++)
+            winners.add(winner.get(i));
 
+        int winPot=game.pot/winner.size();
+        while(winners.size()!=0){
+            if(winners.get(0).contains("1")){
+                game.p1.wallet+=winPot;
+                winners.remove(0);
+            }
+            if(winners.get(0).contains("2")){
+                game.p2.wallet+=winPot;
+                winners.remove(0);
+            }
+            if(winners.get(0).contains("3")){
+                game.p3.wallet+=winPot;
+                winners.remove(0);
+            }
+            if(winners.get(0).contains("4")){
+                game.p4.wallet+=winPot;
+                winners.remove(0);
+            }
+            if(winners.get(0).contains("5")){
+                game.p5.wallet+=winPot;
+                winners.remove(0);
+            }
+            if(winners.get(0).contains("6")){
+                game.p6.wallet+=winPot;
+                winners.remove(0);
+            }
+            if(winners.get(0).contains("7")){
+                game.p7.wallet+=winPot;
+                winners.remove(0);
+            }
 
+        }
+        money=true;
+    }
+    //DRAWS THE WINNER'S PANEL
+    public void drawWinner(Graphics g){
+            Font fnt1 = new Font("arial", Font.BOLD,40);
+            g.setFont(fnt1);
+            g.drawString(winner+" WINS!!!", (int)x-200, (int)y+200);
+
+    }
     //DRAWS THE CARD HAND
     public void drawHand(Graphics g){
         if (card1 !=null) {
-            if(Game.State==Game.STATE.COMPUTER_TURN)
+            if(Game.State==Game.STATE.COMPUTER_TURN || Game.State==Game.STATE.END_GAME)
                 g.drawImage(card1, (int) x, (int) y, null);
             else
                 g.drawImage(facedown, (int) x, (int) y, null);
