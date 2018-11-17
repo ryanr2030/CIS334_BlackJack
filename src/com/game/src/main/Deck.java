@@ -20,98 +20,138 @@ public class Deck{
     static String [] suit = {"hearts", "diamonds", "spades", "clubs"};
 
 
+
     /*set function assigns a suit, value, col, and row to each card type in the Deck 'deck'
       this will set the deck in order to start i.e 2-ACE of hearts then 2-ACE of diamonds
       2-ACE of spades and finally  2-ace of clubs
      */
     public void set(){
-        int val= 2;
-        int col = 1;
-        int row=1;
-        for (int i=1; i<53; i++, col++){
-            //The sprite sheet contains 2 rows with 27 columns we only want r1 c1-27 and r2 c2-25
-            //because the last entrys are a facedown card and a blank entry that we don't want in the
-            //deck
+        //Hearts
+        card card1= new card();
+        card card2= new card();
+        card card3= new card();
+        card card4= new card();
+        card card5= new card();
+        card card6= new card();
+        card card7= new card();
+        card card8= new card();
+        card card9= new card();
+        card card10= new card();
+        card card11= new card();
+        card card12= new card();
+        card card13= new card();
 
-            if (col==27 && row == 1){
-                col=1;
-                row=2;
-            }
-            card cur= new card();
+        card1.set(suit[0], 2, 1, 1);
+        card2.set(suit[0], 3, 2, 1);
+        card3.set(suit[0], 4, 3, 1);
+        card4.set(suit[0], 5, 4, 1);
+        card5.set(suit[0], 6, 5, 1);
+        card6.set(suit[0], 7, 6, 1);
+        card7.set(suit[0], 8, 7, 1);
+        card8.set(suit[0], 9, 8, 1);
+        card9.set(suit[0], 10, 9, 1);
+        card10.set(suit[0], 10, 10, 1);
+        card11.set(suit[0], 10, 11, 1);
+        card12.set(suit[0], 10, 12, 1);
+        card13.set(suit[0], 11, 13, 1);
+            deck.add(card1);
+            deck.add(card2);
+            deck.add(card3);
+            deck.add(card4);
+            deck.add(card5);
+            deck.add(card6);
+            deck.add(card7);
+            deck.add(card8);
+            deck.add(card9);
+            deck.add(card10);
+            deck.add(card11);
+            deck.add(card12);
+            deck.add(card13);
 
-            if (i<13){
-                if(i==12) {
-                    val=11;
-                    cur.set(suit[0], val, col, row);
-                    deck.add(cur);
-                    val=2;
+        //Diamonds
+        card1.set(suit[1], 2, 14, 1);
+        card2.set(suit[1], 3, 15, 1);
+        card3.set(suit[1], 4, 16, 1);
+        card4.set(suit[1], 5, 17, 1);
+        card5.set(suit[1], 6, 18, 1);
+        card6.set(suit[1], 7, 19, 1);
+        card7.set(suit[1], 8, 20, 1);
+        card8.set(suit[1], 9, 21, 1);
+        card9.set(suit[1], 10, 22, 1);
+        card10.set(suit[1], 10, 23, 1);
+        card11.set(suit[1], 10, 24, 1);
+        card12.set(suit[1], 10, 25, 1);
+        card13.set(suit[1], 11, 26, 1);
+        deck.add(card1);
+        deck.add(card2);
+        deck.add(card3);
+        deck.add(card4);
+        deck.add(card5);
+        deck.add(card6);
+        deck.add(card7);
+        deck.add(card8);
+        deck.add(card9);
+        deck.add(card10);
+        deck.add(card11);
+        deck.add(card12);
+        deck.add(card13);
 
-                }
-                else if (i==11 | i==10 | i==9) {
-                    val = 10;
-                    cur.set(suit[0], val, col, row);
-                    deck.add(cur);
-                    val++;
-                }
-                else{
-                    cur.set(suit[0], val, col, row);
-                    deck.add(cur);
-                    val++;
-                }
-            }
-            else if (i>12 && i < 26) {
-                if (i == 25) {
-                    val = 11;
-                    cur.set(suit[1], val, col, row);
-                    deck.add(cur);
-                    val = 2;
-                } else if (i ==24 | i==23 | i==22) {
-                    val = 10;
-                    cur.set(suit[1], val, col, row);
-                    deck.add(cur);
-                    val++;
-                } else {
-                    cur.set(suit[1], val, col, row);
-                    deck.add(cur);
-                    val++;
-                }
-            }
-            else if (i>25 && i < 39) {
-                if (i == 38) {
-                    val = 11;
-                    cur.set(suit[2], val, col, row);
-                    deck.add(cur);
-                    val = 2;
-                } else if (i == 37 | i==36 | i==35) {
-                    val = 10;
-                    cur.set(suit[2], val, col, row);
-                    deck.add(cur);
-                    val++;
-                } else {
-                    cur.set(suit[2], val, col, row);
-                    deck.add(cur);
-                    val++;
-                }
-            }
-            else if (i>38 && i < 52) {
-                if (i == 51) {
-                    val = 11;
-                    cur.set(suit[3], val, col, row);
-                    deck.add(cur);
-                    val = 2;
-                } else if (i == 50 | i ==49 | i==48) {
-                    val = 10;
-                    cur.set(suit[3], val, col, row);
-                    deck.add(cur);
-                    val++;
-                } else {
-                    cur.set(suit[3], val, col, row);
-                    deck.add(cur);
-                    val++;
-                }
-            }
+        //spades
+        card1.set(suit[2], 2, 27, 1);
+        card2.set(suit[2], 3, 1, 2);
+        card3.set(suit[2], 4, 2, 2);
+        card4.set(suit[2], 5, 3, 2);
+        card5.set(suit[2], 6, 4, 2);
+        card6.set(suit[2], 7, 5, 2);
+        card7.set(suit[2], 8, 6, 2);
+        card8.set(suit[2], 9, 7, 2);
+        card9.set(suit[2], 10, 8, 2);
+        card10.set(suit[2], 10, 9, 2);
+        card11.set(suit[2], 10, 10, 2);
+        card12.set(suit[2], 10, 11, 2);
+        card13.set(suit[2], 11, 12, 2);
+        deck.add(card1);
+        deck.add(card2);
+        deck.add(card3);
+        deck.add(card4);
+        deck.add(card5);
+        deck.add(card6);
+        deck.add(card7);
+        deck.add(card8);
+        deck.add(card9);
+        deck.add(card10);
+        deck.add(card11);
+        deck.add(card12);
+        deck.add(card13);
 
-        }
+        //clubs
+        card1.set(suit[3], 2, 13, 2);
+        card2.set(suit[3], 3, 14, 2);
+        card3.set(suit[3], 4, 15, 2);
+        card4.set(suit[3], 5, 16, 2);
+        card5.set(suit[3], 6, 17, 2);
+        card6.set(suit[3], 7, 18, 2);
+        card7.set(suit[3], 8, 19, 2);
+        card8.set(suit[3], 9, 20, 2);
+        card9.set(suit[3], 10, 21, 2);
+        card10.set(suit[3], 10, 22, 2);
+        card11.set(suit[3], 10, 23, 2);
+        card12.set(suit[3], 10, 24, 2);
+        card13.set(suit[3], 11, 25, 2);
+        deck.add(card1);
+        deck.add(card2);
+        deck.add(card3);
+        deck.add(card4);
+        deck.add(card5);
+        deck.add(card6);
+        deck.add(card7);
+        deck.add(card8);
+        deck.add(card9);
+        deck.add(card10);
+        deck.add(card11);
+        deck.add(card12);
+        deck.add(card13);
+
 
     }
 

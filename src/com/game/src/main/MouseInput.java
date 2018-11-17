@@ -2,18 +2,25 @@ package com.game.src.main;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Timer;
+
+import static java.lang.Thread.sleep;
 
 public class MouseInput implements MouseListener{
     public Game game;
-    MouseInput(Game game){
+    int i =0;
+    ArrayList<String> turnList = new ArrayList <String>();
+    boolean turns=true;
+
+    public MouseInput(Game game) {
         this.game=game;
     }
-    MouseInput(){
 
-    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
 
     }
 
@@ -259,6 +266,7 @@ public class MouseInput implements MouseListener{
                     else {
                         game.p1.setTurn(true);
                         game.setHands();
+                        game.initializer=1;
                         Game.State = Game.STATE.PLAYER1_TURN;
 
                     }
@@ -338,19 +346,206 @@ public class MouseInput implements MouseListener{
          */
 
         if (Game.State == Game.STATE.PLAYER1_TURN) {
-            game.initializer=1;
-            if (mx >= game.p1.betx && mx <= game.p1.betx + game.p1.bwidth && game.p1.getIsTurn() == true) {
-                //Bet Button Clicked
-                if (my >= game.p1.by && my <= game.p1.by + game.p1.bheight ) {
-                    System.out.println("CLICKED");
-                    game.p1.hit(game.deck.draw());
-                    if (game.initializer == 4 | game.p1.bust() == true){
-                        game.p1.setTurn(false);
-                        game.initializer++;
-                        game.p2.setTurn(true);
-                    }
-                }
+            if (turns == true) {
+                turnList.add("P1 " + game.p1.getAnte());
+                turnList.add("P2 " + game.p2.getAnte());
+                turnList.add("P3 " + game.p3.getAnte());
+                if (game.p4 != null)
+                    turnList.add("P4 " + game.p4.getAnte());
+                if (game.p5 != null)
+                    turnList.add("P5 " + game.p5.getAnte());
+                if (game.p6 != null)
+                    turnList.add("P6 " + game.p6.getAnte());
+                if (game.p7 != null)
+                    turnList.add("P7 " + game.p7.getAnte());
+                turnList.add("Computer");
+                turns = false;
             }
+            if (turnList.size() == 1) {
+                game.State = Game.STATE.COMPUTER_TURN;
+            }
+            if (turnList.get(0).contains("P1 true")) {
+                    //Stay Pressed
+                    if (mx >= game.p1.stayx && mx <= game.p1.stayx + game.p1.bwidth && my >= game.p1.by && my <= game.p1.by + game.p1.bheight) {
+                        turnList.remove(0);
+                        game.p1.setTurn(false);
+                    }
+                    //hit pressed
+                    else if (mx >= game.p1.betx && mx <= game.p1.betx + game.p1.bwidth && my >= game.p1.by && my <= game.p1.by + game.p1.bheight && game.p1.hcount < 4) {
+                        game.p1.hit(game.deck.draw());
+                        game.p1.hcount++;
+                        System.out.println("HIT CLICKED");
+                        if (game.p1.getHandVal() > 21) {
+                            System.out.println("Player 1 Busted:" + game.p1.getHandVal());
+                            turnList.remove(0);
+                            game.p1.setTurn(false);
+                        }
+                    }
+
+                }
+                if (turnList.get(0).contains("P2 true")) {
+                    if (!game.p2.getIsTurn())
+                        game.p2.setTurn(true);
+                    if (game.p2.getHandVal() > 21) {
+                        System.out.println("Player 2 Busted:" + game.p2.getHandVal());
+                        turnList.remove(0);
+                        game.p2.setTurn(false);
+                    }
+                    //Stay Pressed
+                    else if (mx >= game.p2.stayx && mx <= game.p2.stayx + game.p2.bwidth && my >= game.p2.by && my <= game.p2.by + game.p2.bheight) {
+                        turnList.remove(0);
+                        game.p2.setTurn(false);
+                    }
+                    //hit pressed
+                    else if (mx >= game.p2.betx && mx <= game.p2.betx + game.p2.bwidth && my >= game.p2.by && my <= game.p2.by + game.p2.bheight && game.p2.hcount < 4) {
+                        game.p2.hit(game.deck.draw());
+                        game.p2.hcount++;
+                        System.out.println("HIT CLICKED");
+                        if (game.p4.getHandVal() > 21) {
+                            System.out.println("Player 4 Busted:" + game.p4.getHandVal());
+                            turnList.remove(0);
+                            game.p4.setTurn(false);
+                        }
+                    }
+
+                }
+                if (turnList.get(0).contains("P3 true")) {
+                    if (!game.p3.getIsTurn())
+                        game.p3.setTurn(true);
+                    if (game.p3.getHandVal() > 21) {
+                        System.out.println("Player 3 Busted:" + game.p3.getHandVal());
+                        turnList.remove(0);
+                        game.p3.setTurn(false);
+                    }
+                    //Stay Pressed
+                    else if (mx >= game.p3.stayx && mx <= game.p3.stayx + game.p3.bwidth && my >= game.p3.by && my <= game.p3.by + game.p3.bheight) {
+                        turnList.remove(0);
+                        game.p3.setTurn(false);
+                    }
+                    //hit pressed
+                    else if (mx >= game.p3.betx && mx <= game.p3.betx + game.p3.bwidth && my >= game.p3.by && my <= game.p3.by + game.p3.bheight && game.p3.hcount < 4) {
+                        game.p3.hit(game.deck.draw());
+                        game.p3.hcount++;
+                        System.out.println("HIT CLICKED");
+                        if (game.p4.getHandVal() > 21) {
+                            System.out.println("Player 4 Busted:" + game.p4.getHandVal());
+                            turnList.remove(0);
+                            game.p4.setTurn(false);
+                        }
+
+                    }
+
+                }
+
+                if (turnList.get(0).contains("P4 true")) {
+                    if (!game.p4.getIsTurn())
+                        game.p4.setTurn(true);
+                    if (game.p4.getHandVal() > 21) {
+                        System.out.println("Player 4 Busted:" + game.p4.getHandVal());
+                        turnList.remove(0);
+                        game.p4.setTurn(false);
+                    }
+                    //Stay Pressed
+                    else if (mx >= game.p4.stayx && mx <= game.p4.stayx + game.p4.bwidth && my >= game.p4.by && my <= game.p4.by + game.p4.bheight) {
+                        turnList.remove(0);
+                        game.p4.setTurn(false);
+                    }
+                    //hit pressed
+                    else if (mx >= game.p4.betx && mx <= game.p4.betx + game.p4.bwidth && my >= game.p4.by && my <= game.p4.by + game.p4.bheight && game.p4.hcount < 4) {
+                        game.p4.hit(game.deck.draw());
+                        game.p4.hcount++;
+                        System.out.println("HIT CLICKED");
+                        if (game.p4.getHandVal() > 21) {
+                            System.out.println("Player 4 Busted:" + game.p4.getHandVal());
+                            turnList.remove(0);
+                            game.p4.setTurn(false);
+                        }
+                    }
+
+                }
+                if (turnList.get(0).contains("P5 true")) {
+                    if (!game.p5.getIsTurn())
+                        game.p5.setTurn(true);
+                    if (game.p5.getHandVal() > 21) {
+                        System.out.println("Player 5 Busted:" + game.p5.getHandVal());
+                        turnList.remove(0);
+                        game.p5.setTurn(false);
+                    }
+                    //Stay Pressed
+                    else if (mx >= game.p5.stayx && mx <= game.p5.stayx + game.p5.bwidth && my >= game.p5.by && my <= game.p5.by + game.p5.bheight) {
+                        turnList.remove(0);
+                        game.p5.setTurn(false);
+                    }
+                    //hit pressed
+                    else if (mx >= game.p5.betx && mx <= game.p5.betx + game.p5.bwidth && my >= game.p5.by && my <= game.p5.by + game.p5.bheight && game.p5.hcount < 4) {
+                        game.p5.hit(game.deck.draw());
+                        game.p5.hcount++;
+                        System.out.println("HIT CLICKED");
+                        if (game.p5.getHandVal() > 21) {
+                            System.out.println("Player 5 Busted:" + game.p5.getHandVal());
+                            turnList.remove(0);
+                            game.p5.setTurn(false);
+                        }
+                    }
+
+                }
+                if (turnList.get(0).contains("P6 true")) {
+                    if (!game.p6.getIsTurn())
+                        game.p6.setTurn(true);
+                    if (game.p6.getHandVal() > 21) {
+                        System.out.println("Player 6 Busted:" + game.p6.getHandVal());
+                        turnList.remove(0);
+                        game.p6.setTurn(false);
+                    }
+                    //Stay Pressed
+                    else if (mx >= game.p6.stayx && mx <= game.p6.stayx + game.p6.bwidth && my >= game.p6.by && my <= game.p6.by + game.p6.bheight) {
+                        turnList.remove(0);
+                        game.p6.setTurn(false);
+                    }
+                    //hit pressed
+                    else if (mx >= game.p6.betx && mx <= game.p6.betx + game.p6.bwidth && my >= game.p6.by && my <= game.p6.by + game.p6.bheight && game.p6.hcount < 4) {
+                        game.p6.hit(game.deck.draw());
+                        game.p6.hcount++;
+                        System.out.println("HIT CLICKED");
+                        if (game.p6.getHandVal() > 21) {
+                            System.out.println("Player 6 Busted:" + game.p6.getHandVal());
+                            turnList.remove(0);
+                            game.p6.setTurn(false);
+                        }
+                    }
+
+                }
+                if (turnList.get(0).contains("P7 true")) {
+                    if (!game.p7.getIsTurn())
+                        game.p7.setTurn(true);
+                    if (game.p7.getHandVal() > 21) {
+                        System.out.println("Player 7 Busted:" + game.p7.getHandVal());
+                        turnList.remove(0);
+                        game.p7.setTurn(false);
+                    }
+                    //Stay Pressed
+                    else if (mx >= game.p7.stayx && mx <= game.p7.stayx + game.p7.bwidth && my >= game.p7.by && my <= game.p7.by + game.p7.bheight) {
+                        turnList.remove(0);
+                        game.p7.setTurn(false);
+                    }
+                    //hit pressed
+                    else if (mx >= game.p7.betx && mx <= game.p7.betx + game.p7.bwidth && my >= game.p7.by && my <= game.p7.by + game.p7.bheight && game.p7.hcount < 4) {
+                        game.p7.hit(game.deck.draw());
+                        game.p7.hcount++;
+                        System.out.println("HIT CLICKED");
+                        if (game.p7.getHandVal() > 21) {
+                            System.out.println("Player 7 Busted:" + game.p7.getHandVal());
+                            turnList.remove(0);
+                            game.p7.setTurn(false);
+                        }
+                    }
+
+                }
+                if (turnList.get(0).contains("false")) {
+                    turnList.remove(0);
+                }
+
+
         }
     }
 
@@ -368,4 +563,5 @@ public class MouseInput implements MouseListener{
     public void mouseExited(MouseEvent e) {
 
     }
+
 }

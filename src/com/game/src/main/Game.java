@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.*;
 
 public class Game extends Canvas implements Runnable{
-
+    //
     //Sets resolution to 1280x640
     public static final int WIDTH = 640;
     public static final int HEIGHT = WIDTH / 12 * 6;
@@ -22,6 +22,7 @@ public class Game extends Canvas implements Runnable{
 
     //threads to allow multithreading
     private Thread thread;
+
 
     //buffers the entire game window
 
@@ -118,7 +119,7 @@ public class Game extends Canvas implements Runnable{
         SpriteSheet ss = new SpriteSheet(spriteSheet);
 
         deckImg=ss.grabImage(26,2,75,109);
-        mouse= new MouseInput();
+        mouse= new MouseInput(this);
         menu= new Menu();
 
 
@@ -135,6 +136,7 @@ public class Game extends Canvas implements Runnable{
             return;
         running = true;
         thread = new Thread(this);
+
         thread.start();
     }
 
@@ -190,7 +192,6 @@ public class Game extends Canvas implements Runnable{
     //everything in the game that updates
     private void tick(){
         if(State==STATE.ANTE ) {
-
         }
         else if(State == STATE.PLAYER1_TURN){
                 dealHands();
@@ -274,7 +275,6 @@ public class Game extends Canvas implements Runnable{
 
         //current frame we're working in
         JFrame frame = new JFrame("Black Jack");
-
         //Create Scale Sizes for a game window
         Game game = new Game();
         game.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));

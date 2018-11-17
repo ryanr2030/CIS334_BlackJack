@@ -6,15 +6,14 @@ import javax.swing.*;
 
 public class Player {
     private int x,x2,y,y2;
-    private boolean ante, fold, isTurn, isBust=false;
+    public int hcount=0;
+    private boolean ante, isTurn, fold, isBust=false, stay=false;
     private int wallet=1000, handVal=0, pid, count;
     public int betx, hitx, foldx, stayx, bwidth, by, bheight;
     private card[] hand=new card[6];
     private static int playerCount=1;
     private SpriteSheet ss;
-    private JFrame frame;
     private Game game;
-
 
 
 
@@ -23,8 +22,6 @@ public class Player {
     private BufferedImage card1,card2, card3, card4, card5, card6, facedown, turn_indicator;
 
     public Player(int X, int Y, Game game){
-
-        game.addMouseListener(new MouseInput(game));
         ante=false;
         fold=false;
         this.game=game;
@@ -36,7 +33,7 @@ public class Player {
         betx=x+5;
         hitx=betx;
         foldx=x+65;
-        stayx=x+35;
+        stayx=foldx;
         bwidth=25;
         by=y+155;
         bheight=25;
@@ -101,7 +98,7 @@ public class Player {
 
 //places a card in the deck
     public void hit(card C){
-        if(bust()==false){
+        if(bust()==false ){
             getCard(C);
 
         }
@@ -109,39 +106,32 @@ public class Player {
     }
 
     //check if a player busted includes an if ace handler
-    public boolean bust(){
-        getHandVal();
-        if(handVal>21){
-            if(containsAce()==true){
-                getHandVal();
-                bust();
-            }
-            else
-                isBust=true;
-                return true;
-        }
-        return false;
+    public boolean bust() {
+        if ( getHandVal() > 21)
+            return true;
+        else
+            return false;
+
     }
 
 
-    //checks if the hand contains an ace. Only called if the player has already busted.
-    //If an ace is found the value of the ace is reset to 2. It will loop through this
-    //if there are multiple aces
-    public boolean containsAce(){
-        for(int i =0; i<count; i++){
-            if (hand[count].getValue()==11){
-                hand[count].setValue(2);
-                return true;
-            }
-        }
-        return false;
-    }
+
 
     //returns the current value of the hand
     public int getHandVal(){
         handVal=0;
         for (int i=0; i<count; i++){
             handVal+=hand[i].getValue();
+        }
+        if (handVal>21){
+            handVal=0;
+            for (int i=0; i<count; i++){
+                if(hand[i].getValue()==11){
+                    handVal+=2;
+                }
+                else
+                    handVal+=hand[i].getValue();
+            }
         }
         return handVal;
     }
@@ -202,46 +192,51 @@ public class Player {
         else if (Game.State!=Game.STATE.MENU| Game.State!=Game.STATE.ANTE) {
             button("Hit", betx, by, bwidth, bheight, g);
             button("Stay", stayx, by, bwidth, bheight, g);
-            button("Fold", foldx, by, bwidth, bheight, g);
         }
 
     }
     public void drawPlayerPanel(Graphics g){
         g.setColor(Color.lightGray);
-        g.fillRect(x, (int)y+125, 100, 60);
+        g.fillRect(x, (int)y+125, 100, 75);
         g.setColor(Color.black);
-        g.drawRect(x , y+125, 100, 60);
+        g.drawRect(x , y+125, 100, 75);
         Font fnt1 = new Font("arial", Font.BOLD,12);
         g.setFont(fnt1);
         g.drawString("Player "+pid+": $"+wallet, (int)x+5, (int)y+145);
         if(isTurn==true){
             g.drawImage(turn_indicator, x+15, y+175, null);
         }
-        if(isBust==true){
-            fnt1= new Font("arial", Font.BOLD, 20);
-            g.drawString("BUST", x+35, y+155);
+        if(getHandVal()>21){
+            fnt1= new Font("arial", Font.BOLD, 80);
+            g.drawString("BUST", x+35, y+195);
+        }
+        else{
+            fnt1= new Font("arial", Font.BOLD, 80);
+            g.drawString("Hand:"+getHandVal(), x+30, y+195);
         }
 
     }
+    //DRAWS THE PLAYER'S HAND VALUE
+
 //DRAWS THE CARD HAND
     public void drawHand(Graphics g){
             if (card1 !=null) {
                 g.drawImage(card1, (int) x, (int) y, null);
             }
             if (card2 !=null) {
-                g.drawImage(card2, (int) x+80, (int) y, null);
+                g.drawImage(card2, (int) x+40, (int) y, null);
             }
             if (card3 !=null) {
-                g.drawImage(card3, (int) x+120, (int) y, null);
+                g.drawImage(card3, (int) x+55, (int) y, null);
             }
             if (card4 !=null) {
-                g.drawImage(card4, (int) x+160, (int) y, null);
+                g.drawImage(card4, (int) x+70, (int) y, null);
             }
             if (card5 !=null) {
-                g.drawImage(card2, (int) x+200, (int) y, null);
+                g.drawImage(card2, (int) x+85, (int) y, null);
             }
             if (card6 !=null) {
-                g.drawImage(card2, (int) x+240, (int) y, null);
+                g.drawImage(card2, (int) x+100, (int) y, null);
             }
 
     }
@@ -257,6 +252,9 @@ public class Player {
     public boolean getAnte(){
         return ante;
     }
+    public void setStay(boolean stay){
+        this.stay=stay;
+    }
 
     public void setAnte(boolean ante){
         this.ante=ante;
@@ -267,10 +265,13 @@ public class Player {
     public boolean getIsTurn(){
         return isTurn;
     }
+    public boolean getIsBust(){return isBust;}
+    public boolean getStay(){return stay;}
+
     public int getX(){
         return x;
-
     }
+
     public int getY(){
         return (int)y;
 
