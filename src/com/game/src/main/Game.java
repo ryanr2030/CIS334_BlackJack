@@ -87,13 +87,7 @@ public class Game extends Canvas implements Runnable{
         ANTE,
         HELP,
         COMPUTER_TURN,
-        PLAYER1_TURN,
-        PLAYER2_TURN,
-        PLAYER3_TURN,
-        PLAYER4_TURN,
-        PLAYER5_TURN,
-        PLAYER6_TURN,
-        PLAYER7_TURN,
+        PLAYER_TURN,
         END_GAME
 
     }
@@ -193,7 +187,7 @@ public class Game extends Canvas implements Runnable{
     private void tick(){
         if(State==STATE.ANTE ) {
         }
-        else if(State == STATE.PLAYER1_TURN){
+        else if(State == STATE.PLAYER_TURN){
                 dealHands();
         }
         else if(State == STATE.MENU){
@@ -228,25 +222,7 @@ public class Game extends Canvas implements Runnable{
             drawHands(g);
 
         }
-        if(State == STATE.PLAYER1_TURN){
-            drawHands(g);
-        }
-        if(State == STATE.PLAYER2_TURN){
-            drawHands(g);
-        }
-        if(State == STATE.PLAYER3_TURN){
-            drawHands(g);
-        }
-        if(State == STATE.PLAYER4_TURN){
-            drawHands(g);
-        }
-        if(State == STATE.PLAYER5_TURN){
-            drawHands(g);
-        }
-        if(State == STATE.PLAYER6_TURN){
-            drawHands(g);
-        }
-        if(State == STATE.PLAYER7_TURN){
+        if(State == STATE.PLAYER_TURN){
             drawHands(g);
         }
         if(State == STATE.COMPUTER_TURN){

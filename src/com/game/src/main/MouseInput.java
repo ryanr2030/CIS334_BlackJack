@@ -161,7 +161,7 @@ public class MouseInput implements MouseListener{
                         game.p4.setTurn(true);
                     else {
                         game.p1.setTurn(true);
-                        Game.State = Game.STATE.PLAYER1_TURN;
+                        Game.State = Game.STATE.PLAYER_TURN;
                         game.setHands();
                     }
 
@@ -178,7 +178,7 @@ public class MouseInput implements MouseListener{
                         game.p5.setTurn(true);
                     else {
                         game.p1.setTurn(true);
-                        Game.State = Game.STATE.PLAYER1_TURN;
+                        Game.State = Game.STATE.PLAYER_TURN;
                         game.setHands();
                     }
 
@@ -195,7 +195,7 @@ public class MouseInput implements MouseListener{
                         game.p6.setTurn(true);
                     else {
                         game.p1.setTurn(true);
-                        Game.State = Game.STATE.PLAYER1_TURN;
+                        Game.State = Game.STATE.PLAYER_TURN;
                         game.setHands();
                     }
 
@@ -214,7 +214,7 @@ public class MouseInput implements MouseListener{
                     else {
                         game.p1.setTurn(true);
                         game.setHands();
-                        Game.State = Game.STATE.PLAYER1_TURN;
+                        Game.State = Game.STATE.PLAYER_TURN;
                     }
 
                 }
@@ -228,7 +228,7 @@ public class MouseInput implements MouseListener{
                     game.initializer++;
                     game.p1.setTurn(true);
                     game.setHands();
-                    Game.State = Game.STATE.PLAYER1_TURN;
+                    Game.State = Game.STATE.PLAYER_TURN;
 
                 }
 
@@ -267,7 +267,7 @@ public class MouseInput implements MouseListener{
                         game.p1.setTurn(true);
                         game.setHands();
                         game.initializer=1;
-                        Game.State = Game.STATE.PLAYER1_TURN;
+                        Game.State = Game.STATE.PLAYER_TURN;
 
                     }
                 }
@@ -284,7 +284,7 @@ public class MouseInput implements MouseListener{
                     else {
                         game.p1.setTurn(true);
                         game.setHands();
-                        Game.State = Game.STATE.PLAYER1_TURN;
+                        Game.State = Game.STATE.PLAYER_TURN;
                     }
                 }
 
@@ -300,7 +300,7 @@ public class MouseInput implements MouseListener{
                     else {
                         game.p1.setTurn(true);
                         game.setHands();
-                        Game.State = Game.STATE.PLAYER1_TURN;
+                        Game.State = Game.STATE.PLAYER_TURN;
                     }
                 }
 
@@ -316,7 +316,7 @@ public class MouseInput implements MouseListener{
                     else {
                         game.p1.setTurn(true);
                         game.setHands();
-                        Game.State = Game.STATE.PLAYER1_TURN;
+                        Game.State = Game.STATE.PLAYER_TURN;
 
                     }
                 }
@@ -329,7 +329,7 @@ public class MouseInput implements MouseListener{
                     game.p7.setTurn(false);
                     game.initializer++;
                     game.p1.setTurn(true);
-                    Game.State = Game.STATE.PLAYER1_TURN;
+                    Game.State = Game.STATE.PLAYER_TURN;
                     game.setHands();
                 }
 
@@ -345,7 +345,7 @@ public class MouseInput implements MouseListener{
          if we get it working for 1 player we just copy and paste it 6 times and change the variables
          */
 
-        if (Game.State == Game.STATE.PLAYER1_TURN) {
+        if (Game.State == Game.STATE.PLAYER_TURN) {
             if (turns == true) {
                 turnList.add("P1 " + game.p1.getAnte());
                 turnList.add("P2 " + game.p2.getAnte());
@@ -545,6 +545,9 @@ public class MouseInput implements MouseListener{
                     turnList.remove(0);
                 }
 
+
+        }
+        if (Game.State == Game.STATE.COMPUTER_TURN){
 
         }
     }
