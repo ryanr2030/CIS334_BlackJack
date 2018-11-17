@@ -3,6 +3,7 @@ package com.game.src.main;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
+import java.util.ArrayList;
 
 /*
 NEEDS TO BE UPDATED AFTER WE GET THE PLAYER_TURN STATE WORKING
@@ -13,9 +14,11 @@ public class Computer {
     private card[] hand=new card[6];
     public int hcount=0;
     private boolean ante, isTurn, fold, isBust=false, stay=false;
-    private int wallet=1000, handVal=0;
+    private int wallet=1000, handVal=0, maxHand=0;
     private SpriteSheet ss;
     private Game game;
+    protected ArrayList<String> winner=new ArrayList<String>();
+
 
 
 
@@ -25,6 +28,7 @@ public class Computer {
 
 
     public Computer(double X, double Y, Game game){
+        this.game=game;
         game.addMouseListener(new MouseInput(game));
         x = X;
         y = Y;
@@ -40,6 +44,7 @@ public class Computer {
     }
 
     public void tick() {
+
     }
 
     public void deal(){
@@ -101,7 +106,84 @@ public class Computer {
 
 
 
-
+    public int getMaxHand(){
+        if(game.pcount>=1 && game.p1.getHandVal()<22 && game.p1.getAnte()){
+            maxHand=game.p1.getHandVal();
+            winner.add("Player 1");
+        }
+        if(game.pcount>=2 && game.p2.getHandVal()<22 && game.p2.getAnte()){
+            if(maxHand<game.p2.getHandVal()){
+                while(winner.size()!=0){
+                    winner.remove(0);
+                }
+                winner.add("Player 2");
+            }
+            else if(maxHand==game.p2.getHandVal()){
+                winner.add("Player 2");
+            }
+        }
+        if(game.pcount>=3 && game.p3.getHandVal()<22 && game.p3.getAnte()){
+            if(maxHand<game.p3.getHandVal()){
+                maxHand=game.p3.getHandVal();
+                while (winner.size()!=0){
+                    winner.remove(0);
+                }
+                winner.add("Player 3");
+            }
+            else if(maxHand==game.p3.getHandVal()){
+                winner.add("Player 3");
+            }
+        }
+        if(game.pcount>=4 && game.p4.getHandVal()<22 && game.p4.getAnte()){
+            if(maxHand<game.p4.getHandVal()){
+                maxHand=game.p4.getHandVal();
+                while (winner.size()!=0){
+                    winner.remove(0);
+                }
+                winner.add("Player 4");
+            }
+            else if(maxHand==game.p4.getHandVal()){
+                winner.add("Player 4");
+            }
+        }
+        if(game.pcount>=5 && game.p5.getHandVal()<22 && game.p5.getAnte()){
+            if(maxHand<game.p5.getHandVal()){
+                maxHand=game.p5.getHandVal();
+                while (winner.size()!=0){
+                    winner.remove(0);
+                }
+                winner.add("Player 5");
+            }
+            else if(maxHand==game.p5.getHandVal()){
+                winner.add("Player 5");
+            }
+        }
+        if(game.pcount>=6 && game.p6.getHandVal()<22 && game.p6.getAnte()){
+            if(maxHand<game.p6.getHandVal()){
+                maxHand=game.p6.getHandVal();
+                while (winner.size()!=0){
+                    winner.remove(0);
+                }
+                winner.add("Player 6");
+            }
+            else if(maxHand==game.p6.getHandVal()){
+                winner.add("Player 6");
+            }
+        }
+        if(game.pcount>=7 && game.p7.getHandVal()<22 && game.p7.getAnte()){
+            if(maxHand<game.p7.getHandVal()){
+                maxHand=game.p7.getHandVal();
+                while (winner.size()!=0){
+                    winner.remove(0);
+                }
+                winner.add("Player 7");
+            }
+            else if(maxHand==game.p7.getHandVal()){
+                winner.add("Player 7");
+            }
+        }
+        return maxHand;
+    }
     //returns the current value of the hand
     public int getHandVal(){
         handVal=0;

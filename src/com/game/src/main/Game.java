@@ -37,12 +37,12 @@ public class Game extends Canvas implements Runnable{
     private BufferedImage deckImg = null;
 
     //declare a computer player
-    private Computer c;
+    protected Computer c;
 
     //declare the number of possible players in the game
     protected Player p1,p2,p3,p4, p5, p6, p7;
     //used to tell how many players to initialize
-    private int pcount=0;
+    protected int pcount=0;
 
     //Create a deck object
     public Deck deck = new Deck();
