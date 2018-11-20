@@ -84,6 +84,7 @@ public class Computer {
             compPanel(g);
         }
         if(Game.State==Game.STATE.END_GAME){
+            compPanel(g);
             drawWinner(g);
         }
     }
