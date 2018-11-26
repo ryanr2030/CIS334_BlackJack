@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="blackjack" default="all">
+  
+  
+  <property file="blackjack.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.swc"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.egg"/>
+    <include name="*.ane"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/opencv-341.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+      <include name="lib/ant-javafx.jar"/>
+      <include name="lib/dt.jar"/>
+      <include name="lib/javafx-mx.jar"/>
+      <include name="lib/jconsole.jar"/>
+      <include name="lib/packager.jar"/>
+      <include name="lib/sa-jdi.jar"/>
+      <include name="lib/tools.jar"/>
+      <include name="../../../../../../Users/ryanreynolds/Documents/opencv-341.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Global Libraries -->
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module BlackJack -->
+  
+  <dirname property="module.blackjack.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.blackjack" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.blackjack" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.blackjack" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.blackjack" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="blackjack.output.dir" value="${module.blackjack.basedir}/out/production/BlackJack"/>
+  <property name="blackjack.testoutput.dir" value="${module.blackjack.basedir}/out/test/BlackJack"/>
+  
+  <path id="blackjack.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="blackjack.module.production.classpath">
+    <path refid="${module.jdk.classpath.blackjack}"/>
+  </path>
+  
+  <path id="blackjack.runtime.production.module.classpath">
+    <pathelement location="${blackjack.output.dir}"/>
+  </path>
+  
+  <path id="blackjack.module.classpath">
+    <path refid="${module.jdk.classpath.blackjack}"/>
+    <pathelement location="${blackjack.output.dir}"/>
+  </path>
+  
+  <path id="blackjack.runtime.module.classpath">
+    <pathelement location="${blackjack.testoutput.dir}"/>
+    <pathelement location="${blackjack.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.blackjack">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.blackjack">
+    <patternset refid="excluded.from.module.blackjack"/>
+  </patternset>
+  
+  <path id="blackjack.module.sourcepath">
+    <dirset dir="${module.blackjack.basedir}">
+      <include name="src"/>
+      <include name="res"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.blackjack" depends="compile.module.blackjack.production,compile.module.blackjack.tests" description="Compile module BlackJack"/>
+  
+  <target name="compile.module.blackjack.production" depends="register.custom.compilers" description="Compile module BlackJack; production classes">
+    <mkdir dir="${blackjack.output.dir}"/>
+    <javac2 destdir="${blackjack.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.blackjack}/javac">
+      <compilerarg line="${compiler.args.blackjack}"/>
+      <bootclasspath refid="blackjack.module.bootclasspath"/>
+      <classpath refid="blackjack.module.production.classpath"/>
+      <src refid="blackjack.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.blackjack"/>
+    </javac2>
+    
+    <copy todir="${blackjack.output.dir}">
+      <fileset dir="${module.blackjack.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.blackjack.basedir}/res">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.blackjack.tests" depends="register.custom.compilers,compile.module.blackjack.production" description="compile module BlackJack; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.blackjack" description="cleanup module">
+    <delete dir="${blackjack.output.dir}"/>
+    <delete dir="${blackjack.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.blackjack" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.blackjack" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>

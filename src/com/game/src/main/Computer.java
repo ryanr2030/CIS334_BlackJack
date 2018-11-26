@@ -9,8 +9,11 @@ import java.util.ArrayList;
 NEEDS TO BE UPDATED AFTER WE GET THE PLAYER_TURN STATE WORKING
  */
 public class Computer {
-    private int x,x2,y,y2;
-    private int count;
+    private int x;
+    protected int x2;
+    private int y;
+    protected int y2;
+    public int count;
     private card[] hand=new card[6];
     public int hcount=0;
     private boolean ante;
@@ -19,7 +22,9 @@ public class Computer {
     private boolean isBust=false;
     private boolean stay=false;
     protected boolean money=false;
-    private int wallet=1000, handVal=0, maxHand=0;
+    private int wallet=1000;
+    private int handVal=0;
+    protected int maxHand=0;
     private SpriteSheet ss;
     private Game game;
     protected ArrayList<String> winner=new ArrayList<String>();
@@ -86,6 +91,7 @@ public class Computer {
         if(Game.State==Game.STATE.END_GAME){
             compPanel(g);
             drawWinner(g);
+            drawNextHand(g);
         }
     }
 
@@ -126,7 +132,8 @@ public class Computer {
         }
         if(game.pcount>=2 && game.p2.getHandVal()<22 && game.p2.getAnte()){
             if(maxHand<game.p2.getHandVal()){
-                while(winner.size()!=0){
+                maxHand=game.p2.getHandVal();
+                while (winner.size()!=0){
                     winner.remove(0);
                 }
                 winner.add("Player 2");
@@ -207,7 +214,7 @@ public class Computer {
             handVal=0;
             for (int i=0; i<count; i++){
                 if(hand[i].getValue()==11){
-                    handVal+=2;
+                    handVal+=1;
                 }
                 else
                     handVal+=hand[i].getValue();
@@ -254,37 +261,43 @@ public class Computer {
     //distributes the winnings
     public void winnings(){
         ArrayList<String> winners= new ArrayList<String>();
-        for(int i=0; i<winners.size(); i++)
-            winners.add(winner.get(i));
-
+        for(int i=0; i<winner.size(); i++) {
+            String temp=winner.get(i);
+            winners.add(temp);
+        }
+        System.out.println(winners);
+        System.out.println(maxHand);
         int winPot=game.pot/winner.size();
         while(winners.size()!=0){
             if(winners.get(0).contains("1")){
                 game.p1.wallet+=winPot;
                 winners.remove(0);
             }
-            if(winners.get(0).contains("2")){
+            if(winners.size()>0 && winners.get(0).contains("2")){
                 game.p2.wallet+=winPot;
                 winners.remove(0);
             }
-            if(winners.get(0).contains("3")){
+            if(winners.size()>0 && winners.get(0).contains("3")){
                 game.p3.wallet+=winPot;
                 winners.remove(0);
             }
-            if(winners.get(0).contains("4")){
+            if(winners.size()>0 && winners.get(0).contains("4")){
                 game.p4.wallet+=winPot;
                 winners.remove(0);
             }
-            if(winners.get(0).contains("5")){
+            if(winners.size()>0 && winners.get(0).contains("5")){
                 game.p5.wallet+=winPot;
                 winners.remove(0);
             }
-            if(winners.get(0).contains("6")){
+            if(winners.size()>0 && winners.get(0).contains("6")){
                 game.p6.wallet+=winPot;
                 winners.remove(0);
             }
-            if(winners.get(0).contains("7")){
+            if(winners.size()>0 && winners.get(0).contains("7")){
                 game.p7.wallet+=winPot;
+                winners.remove(0);
+            }
+            if(winners.size()>0 && winners.get(0).contains("Computer")){
                 winners.remove(0);
             }
 
@@ -296,6 +309,26 @@ public class Computer {
             Font fnt1 = new Font("arial", Font.BOLD,40);
             g.setFont(fnt1);
             g.drawString(winner+" WINS!!!", (int)x-200, (int)y+200);
+
+    }
+    public void button(String title, int x, int y, int width, int height, Graphics g){
+        g.setColor(Color.white);
+        g.fillRect(x , y, width, height);
+        g.setColor(Color.black);
+        g.drawRect(x , y, width, height);
+        Font fnt1 = new Font("arial", Font.BOLD,9);
+        g.setFont(fnt1);
+        g.drawString(title, x+width/5, y+2*height/3);
+    }
+
+    //DRAW LOOP NEXT HAND MENU
+    public void drawNextHand(Graphics g){
+        g.setColor(Color.lightGray);
+        g.fillRect(x+300, y, 300, 75);
+        g.setColor(Color.black);
+        g.drawRect(x+300 , y, 300, 75);
+        button("New Hand", x+360,y+25,60, 25, g);
+        button("MENU", x+500,y+25,60, 25, g);
 
     }
     //DRAWS THE CARD HAND
@@ -354,7 +387,17 @@ public class Computer {
         return (int)y;
 
     }
-
+    protected void clearHand(){
+        for(int i=0; i<4; i++){
+            hand[i]=null;
+        }
+        card1=null;
+        card2=null;
+        card3=null;
+        card4=null;
+        card5=null;
+        card6=null;
+    }
 }
 
 

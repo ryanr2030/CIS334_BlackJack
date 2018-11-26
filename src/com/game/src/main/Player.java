@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 public class Player {
-    private int x,x2,y,y2;
+    public int x,x2,y,y2;
     public int hcount=0;
     private boolean ante, isTurn, fold, isBust=false, stay=false;
     protected int wallet=1000, handVal=0, pid, count;
@@ -81,6 +81,7 @@ public class Player {
     //creates the dealing animation by updating a drawn facedown card that sits on the top of the deck to the location of
     //the player's hand. When it reaches the location the player's hand is redrawn
     public void deal(){
+
             if (x < x2) {
                 x2 -= 5;
             }
@@ -127,7 +128,7 @@ public class Player {
             handVal=0;
             for (int i=0; i<count; i++){
                 if(hand[i].getValue()==11){
-                    handVal+=2;
+                    handVal+=1;
                 }
                 else
                     handVal+=hand[i].getValue();
@@ -275,6 +276,17 @@ public class Player {
     public int getY(){
         return (int)y;
 
+    }
+    protected void clearHand(){
+        for(int i=0; i<4; i++){
+            hand[i]=null;
+        }
+        card1=null;
+        card2=null;
+        card3=null;
+        card4=null;
+        card5=null;
+        card6=null;
     }
 
 }

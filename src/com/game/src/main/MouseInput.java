@@ -11,7 +11,7 @@ public class MouseInput implements MouseListener{
     public Game game;
     int i =0;
     ArrayList<String> turnList = new ArrayList <String>();
-    boolean turns=true;
+    boolean turns=true, score=false, clearWinner=true;
 
     public MouseInput(Game game) {
         this.game=game;
@@ -132,31 +132,7 @@ public class MouseInput implements MouseListener{
         //STATE CONTROL FOR THE BUTTONS IN THE ANTE STATE
         // First 7 handle each player's bet button
         // Second 7 handle each player's fold button
-        if(Game.State==Game.STATE.NEW_HAND){
-            game.deck.set();
-            if(game.pcount>=1){
-                game.p1.setAnte(false);
-            }
-            if(game.pcount>=2){
-                game.p2.setAnte(false);
-            }
-            if(game.pcount>=3){
-                game.p3.setAnte(false);
-            }
-            if(game.pcount>=4){
-                game.p4.setAnte(false);
-            }
-            if(game.pcount>=5){
-                game.p5.setAnte(false);
-            }
-            if(game.pcount>=6){
-                game.p6.setAnte(false);
-            }
-            if(game.pcount>=7 ){
-                game.p7.setAnte(false);
-            }
-            game.c.money=false;
-        }
+
         if (Game.State == Game.STATE.ANTE) {
             if (mx >= game.p1.betx && mx <= game.p1.betx + game.p1.bwidth && game.p1.getIsTurn() == true) {
                 //Bet Button Clicked
@@ -636,31 +612,139 @@ public class MouseInput implements MouseListener{
 
 
         }
-        /*
-        ******************************************************************
-        *********************TO DO****************************************
-        ******************************************************************
-        Time DELAY COMPUTER HITTING!!!
-         */
+
         if (Game.State == Game.STATE.COMPUTER_TURN) {
-            int maxhand=game.c.getMaxHand();
-            while (game.c.getHandVal() < 22 && game.c.getHandVal() <= maxhand) {
+            if(!score) {
+                game.c.getMaxHand();
+                score=false;
+            }
+            while (game.c.getHandVal() < 22 && game.c.getHandVal() <= game.c.maxHand) {
                 game.c.hit(game.deck.draw());
             }
-            if(game.c.getHandVal() <22 && game.c.getHandVal()>maxhand){
+            if(game.c.getHandVal() <22 && game.c.getHandVal()>game.c.maxHand){
                 while(game.c.winner.size()!=0){
                     game.c.winner.remove(0);
                 }
                 game.c.winner.add("Computer");
             }
-                Game.State=Game.STATE.END_GAME;
                 System.out.println(game.c.winner);
+                Game.State=Game.STATE.END_GAME;
+                clearWinner=true;
+                game.c.winnings();
+
 
         }
         if (Game.State== Game.STATE.END_GAME){
-            game.c.winnings();
             //define start next hand button
+            /*
+            button("New Hand", x+360,y+25,60, 25, g);
+            button("MENU", x+500,y+25,60, 25, g);
+            */
 
+            //New Hand Clicked
+            if(mx>=game.c.getX()+360 && mx<=game.c.getX()+420 && my>=game.c.getY()+25 && my<=game.c.getY()+50){
+                System.out.println("New Hand Clicked");
+                game.deck.set();
+                game.deck.shuffle();
+                game.c.count=0;
+                turns=true;
+                while(turnList.size()>0){
+                    turnList.remove(0);
+                }
+                if(game.pcount>=1){
+                    game.p1.setAnte(false);
+                    game.p1.setTurn(true);
+                    game.p1.count=0;
+                    game.p1.hcount=0;
+                    game.p1.handVal=0;
+                    game.p1.clearHand();
+                    game.p1.x2=465;
+                    game.p1.y2=75;
+
+                }
+                if(game.pcount>=2){
+                    game.p2.setAnte(false);
+                    game.p2.setTurn(false);
+                    game.p2.count=0;
+                    game.p2.handVal=0;
+                    game.p2.hcount=0;
+                    game.p2.clearHand();
+                    game.p2.x2=465;
+                    game.p2.y2=75;
+                }
+                if(game.pcount>=3){
+                    game.p3.setAnte(false);
+                    game.p3.setTurn(false);
+                    game.p3.count=0;
+                    game.p3.handVal=0;
+                    game.p3.hcount=0;
+                    game.p3.clearHand();
+                    game.p3.x2=465;
+                    game.p3.y2=75;
+                }
+                if(game.pcount>=4){
+                    game.p4.setAnte(false);
+                    game.p4.setTurn(false);
+                    game.p4.count=0;
+                    game.p4.handVal=0;
+                    game.p4.hcount=0;
+                    game.p4.clearHand();
+                    game.p4.x2=465;
+                    game.p4.y2=75;
+                }
+                if(game.pcount>=5){
+                    game.p5.setAnte(false);
+                    game.p5.setTurn(false);
+                    game.p5.count=0;
+                    game.p5.handVal=0;
+                    game.p5.hcount=0;
+                    game.p5.clearHand();
+                    game.p5.x2=465;
+                    game.p5.y2=75;
+
+                }
+                if(game.pcount>=6){
+                    game.p6.setAnte(false);
+                    game.p6.setTurn(false);
+                    game.p6.count=0;
+                    game.p6.handVal=0;
+                    game.p6.hcount=0;
+                    game.p6.clearHand();
+                    game.p6.x2=465;
+                    game.p6.y2=75;
+                }
+                if(game.pcount>=7 ){
+                    game.p7.setAnte(false);
+                    game.p7.setTurn(false);
+                    game.p7.count=0;
+                    game.p7.handVal=0;
+                    game.p7.hcount=0;
+                    game.p7.clearHand();
+                    game.p7.x2=465;
+                    game.p7.y2=75;
+
+                }
+                game.c.money=false;
+                game.c.x2=465;
+                game.c.y2=75;
+                game.initializer=0;
+                game.pot=0;
+                Game.State=Game.STATE.ANTE;
+                score=true;
+                while(game.c.winner.size()>0 && clearWinner)
+                    game.c.winner.remove(0);
+                clearWinner=false;
+
+
+            }
+
+            //New Hand Clicked
+            if(mx>=game.c.getX()+500 && mx<=game.c.getX()+560 && my>=game.c.getY()+25 && my<=game.c.getY()+50){
+                System.out.println("MENU Clicked");
+                Game.State=Game.STATE.MENU;
+
+
+            }
         }
 
     }

@@ -217,9 +217,8 @@ public class Game extends Canvas implements Runnable{
             drawPot(g);
 
         }
-        if(State == STATE.ANTE ) {
+        if(State == STATE.ANTE || State==STATE.NEW_HAND) {
             drawHands(g);
-
         }
         if(State == STATE.PLAYER_TURN){
             drawHands(g);
@@ -281,6 +280,9 @@ public class Game extends Canvas implements Runnable{
     }
     //sets the values in each player's hand
     public void setHands(){
+        c.clearHand();
+        c.getCard(deck.draw());
+        c.getCard(deck.draw());
         if(pcount>=1 && p1.getAnte()==true){
             p1.getCard(deck.draw());
             p1.getCard(deck.draw());
@@ -309,31 +311,30 @@ public class Game extends Canvas implements Runnable{
             p7.getCard(deck.draw());
             p7.getCard(deck.draw());
         }
-        c.getCard(deck.draw());
-        c.getCard(deck.draw());
+
 
     }
     //updates the x and y coordinates of the dealed hands to provide the animation
     private void dealHands(){
-        if(pcount>=1 && p1.getAnte()==true){
+        if(pcount>=1 && p1.getAnte()==true && Game.State!= STATE.NEW_HAND){
             p1.deal();
         }
-        if(pcount>=2 && p2.getAnte()==true){
+        if(pcount>=2 && p2.getAnte()==true && Game.State!= STATE.NEW_HAND){
             p2.deal();
         }
-        if(pcount>=3 && p3.getAnte()==true){
+        if(pcount>=3 && p3.getAnte()==true && Game.State!= STATE.NEW_HAND){
             p3.deal();
         }
-        if(pcount>=4 && p4.getAnte()==true){
+        if(pcount>=4 && p4.getAnte()==true && Game.State!= STATE.NEW_HAND){
             p4.deal();
         }
-        if(pcount>=5 && p5.getAnte()==true){
+        if(pcount>=5 && p5.getAnte()==true && Game.State!= STATE.NEW_HAND){
             p5.deal();
         }
-        if(pcount>=6 && p6.getAnte()==true){
+        if(pcount>=6 && p6.getAnte()==true && Game.State!= STATE.NEW_HAND){
             p6.deal();
         }
-        if(pcount>=7 && p7.getAnte()==true){
+        if(pcount>=7 && p7.getAnte()==true && Game.State!= STATE.NEW_HAND){
             p7.deal();
         }
         c.deal();
