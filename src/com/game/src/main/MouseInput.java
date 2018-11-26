@@ -9,9 +9,9 @@ import static java.lang.Thread.sleep;
 
 public class MouseInput implements MouseListener{
     public Game game;
-    int i =0;
+    int i =0, test=0;
     ArrayList<String> turnList = new ArrayList <String>();
-    boolean turns=true, score=false, clearWinner=true;
+    boolean turns=true, score=true;
 
     public MouseInput(Game game) {
         this.game=game;
@@ -614,7 +614,7 @@ public class MouseInput implements MouseListener{
         }
 
         if (Game.State == Game.STATE.COMPUTER_TURN) {
-            if(!score) {
+            if(score) {
                 game.c.getMaxHand();
                 score=false;
             }
@@ -627,11 +627,12 @@ public class MouseInput implements MouseListener{
                 }
                 game.c.winner.add("Computer");
             }
-                System.out.println(game.c.winner);
                 Game.State=Game.STATE.END_GAME;
-                clearWinner=true;
                 game.c.winnings();
 
+                System.out.println(game.c.winner);
+                game.c.maxHand=0;
+                score=true;
 
         }
         if (Game.State== Game.STATE.END_GAME){
@@ -646,6 +647,7 @@ public class MouseInput implements MouseListener{
                 System.out.println("New Hand Clicked");
                 game.deck.set();
                 game.deck.shuffle();
+                game.c.clearHand();
                 game.c.count=0;
                 turns=true;
                 while(turnList.size()>0){
@@ -730,10 +732,7 @@ public class MouseInput implements MouseListener{
                 game.initializer=0;
                 game.pot=0;
                 Game.State=Game.STATE.ANTE;
-                score=true;
-                while(game.c.winner.size()>0 && clearWinner)
-                    game.c.winner.remove(0);
-                clearWinner=false;
+
 
 
             }
@@ -741,7 +740,16 @@ public class MouseInput implements MouseListener{
             //New Hand Clicked
             if(mx>=game.c.getX()+500 && mx<=game.c.getX()+560 && my>=game.c.getY()+25 && my<=game.c.getY()+50){
                 System.out.println("MENU Clicked");
+                game.p1=null;
+                game.p2=null;
+                game.p3=null;
+                game.p4=null;
+                game.p5=null;
+                game.p6=null;
+                game.p7=null;
+                game.c=null;
                 Game.State=Game.STATE.MENU;
+
 
 
             }

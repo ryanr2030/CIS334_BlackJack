@@ -16,7 +16,6 @@ public class Game extends Canvas implements Runnable{
     public final String TITLE ="Simple Black Jack Game";
     //used to start the game
     private boolean running = false;
-
     //threads to allow multithreading
     private Thread thread;
 
@@ -280,7 +279,6 @@ public class Game extends Canvas implements Runnable{
     }
     //sets the values in each player's hand
     public void setHands(){
-        c.clearHand();
         c.getCard(deck.draw());
         c.getCard(deck.draw());
         if(pcount>=1 && p1.getAnte()==true){

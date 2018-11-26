@@ -23,7 +23,7 @@ public class Computer {
     private boolean stay=false;
     protected boolean money=false;
     private int wallet=1000;
-    private int handVal=0;
+    private int handVal=0, hplayed=0;
     protected int maxHand=0;
     private SpriteSheet ss;
     private Game game;
@@ -105,13 +105,12 @@ public class Computer {
                 else
                     g.drawString("Hand:" + getHandVal(), (int)x + 50, (int)y+125 );
     }
+
     //places a card in the deck
     public void hit(card C){
         if(bust()==false ){
             getCard(C);
-
         }
-
     }
 
     //check if a player busted includes an if ace handler
@@ -120,7 +119,6 @@ public class Computer {
             return true;
         else
             return false;
-
     }
 
 
@@ -265,7 +263,7 @@ public class Computer {
             String temp=winner.get(i);
             winners.add(temp);
         }
-        System.out.println(winners);
+        //System.out.println(winners);
         System.out.println(maxHand);
         int winPot=game.pot/winner.size();
         while(winners.size()!=0){
@@ -309,7 +307,6 @@ public class Computer {
             Font fnt1 = new Font("arial", Font.BOLD,40);
             g.setFont(fnt1);
             g.drawString(winner+" WINS!!!", (int)x-200, (int)y+200);
-
     }
     public void button(String title, int x, int y, int width, int height, Graphics g){
         g.setColor(Color.white);
@@ -398,6 +395,7 @@ public class Computer {
         card5=null;
         card6=null;
     }
+
 }
 
 
