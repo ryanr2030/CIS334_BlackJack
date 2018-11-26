@@ -202,20 +202,32 @@ public class Computer {
         }
         return maxHand;
     }
+
     //returns the current value of the hand
     public int getHandVal(){
         handVal=0;
+        int aceCount=0;
         for (int i=0; i<count; i++){
             handVal+=hand[i].getValue();
+            if(hand[i].getValue()==11)
+                aceCount++;
         }
-        if (handVal>21){
+        if (handVal>21 && aceCount!=0){
             handVal=0;
-            for (int i=0; i<count; i++){
-                if(hand[i].getValue()==11){
-                    handVal+=1;
+            for(int j=1; j<=aceCount; j++) {
+                int l=0;
+                for (int i = 0; i < count; i++) {
+                    if (hand[i].getValue() == 11 && l<j ) {
+                        handVal += 1;
+                        l++;
+                    } else
+                        handVal += hand[i].getValue();
+
                 }
-                else
-                    handVal+=hand[i].getValue();
+                if(handVal<=21){
+                    return handVal;
+                }
+                j++;
             }
         }
         return handVal;
@@ -346,10 +358,10 @@ public class Computer {
             g.drawImage(card4, (int) x+90, (int) y, null);
         }
         if (card5 !=null) {
-            g.drawImage(card2, (int) x+105, (int) y, null);
+            g.drawImage(card5, (int) x+105, (int) y, null);
         }
         if (card6 !=null) {
-            g.drawImage(card2, (int) x+120, (int) y, null);
+            g.drawImage(card6, (int) x+120, (int) y, null);
         }
 
     }
@@ -394,6 +406,9 @@ public class Computer {
         card4=null;
         card5=null;
         card6=null;
+        while(winner.size()>0){
+            winner.remove(0);
+        }
     }
 
 }

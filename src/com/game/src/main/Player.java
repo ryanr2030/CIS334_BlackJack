@@ -2,7 +2,6 @@ package com.game.src.main;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import javax.swing.*;
 
 public class Player {
     public int x,x2,y,y2;
@@ -101,7 +100,6 @@ public class Player {
     public void hit(card C){
         if(bust()==false ){
             getCard(C);
-
         }
 
     }
@@ -121,17 +119,28 @@ public class Player {
     //returns the current value of the hand
     public int getHandVal(){
         handVal=0;
+        int aceCount=0;
         for (int i=0; i<count; i++){
             handVal+=hand[i].getValue();
+            if(hand[i].getValue()==11)
+                aceCount++;
         }
-        if (handVal>21){
+        if (handVal>21 && aceCount!=0){
             handVal=0;
-            for (int i=0; i<count; i++){
-                if(hand[i].getValue()==11){
-                    handVal+=1;
+            for(int j=1; j<=aceCount; j++) {
+                int l=0;
+                for (int i = 0; i < count; i++) {
+                    if (hand[i].getValue() == 11 && l<j ) {
+                        handVal += 1;
+                        l++;
+                    } else
+                        handVal += hand[i].getValue();
+
                 }
-                else
-                    handVal+=hand[i].getValue();
+                if(handVal<=21){
+                    return handVal;
+                }
+                j++;
             }
         }
         return handVal;
@@ -234,10 +243,10 @@ public class Player {
                 g.drawImage(card4, (int) x+70, (int) y, null);
             }
             if (card5 !=null) {
-                g.drawImage(card2, (int) x+85, (int) y, null);
+                g.drawImage(card5, (int) x+85, (int) y, null);
             }
             if (card6 !=null) {
-                g.drawImage(card2, (int) x+100, (int) y, null);
+                g.drawImage(card6, (int) x+100, (int) y, null);
             }
 
     }
