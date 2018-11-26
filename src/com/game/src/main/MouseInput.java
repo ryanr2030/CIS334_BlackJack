@@ -645,6 +645,7 @@ public class MouseInput implements MouseListener{
             //New Hand Clicked
             if(mx>=game.c.getX()+360 && mx<=game.c.getX()+420 && my>=game.c.getY()+25 && my<=game.c.getY()+50){
                 System.out.println("New Hand Clicked");
+                game.deck.clearDeck();
                 game.deck.set();
                 game.deck.shuffle();
                 game.c.clearHand();

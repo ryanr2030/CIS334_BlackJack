@@ -201,7 +201,11 @@ public class Deck{
         deck.remove(0);
         return top;
     }
-
+    public void clearDeck(){
+        while(deck.size()>0){
+            deck.remove(0);
+        }
+    }
     //uses the Collections.shuffle function to shuffle the values in the array list
     //was too lazy to write a shuffle function
     public void shuffle(){
