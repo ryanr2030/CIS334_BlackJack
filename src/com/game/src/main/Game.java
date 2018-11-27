@@ -201,7 +201,7 @@ public class Game extends Canvas implements Runnable{
 
         //create 3 buffers to load 2 images ahead of what is being projected
         if(bs == null){
-            createBufferStrategy(2);
+            createBufferStrategy(3);
             return;
         }
 

@@ -383,6 +383,8 @@ public class MouseInput implements MouseListener{
                     //hit pressed
                     else if (mx >= game.p1.betx && mx <= game.p1.betx + game.p1.bwidth && my >= game.p1.by && my <= game.p1.by + game.p1.bheight && game.p1.hcount < 4) {
                         game.p1.hit(game.deck.draw());
+                        game.p1.x2=465;
+                        game.p1.y2=75;
                         game.p1.hcount++;
                         System.out.println("HIT CLICKED");
                         if (game.p1.getHandVal() > 21) {
@@ -418,6 +420,8 @@ public class MouseInput implements MouseListener{
                     //hit pressed
                     else if (mx >= game.p2.betx && mx <= game.p2.betx + game.p2.bwidth && my >= game.p2.by && my <= game.p2.by + game.p2.bheight && game.p2.hcount < 4) {
                         game.p2.hit(game.deck.draw());
+                        game.p2.x2=465;
+                        game.p2.y2=75;
                         game.p2.hcount++;
                         System.out.println("HIT CLICKED");
                         if (game.p2.getHandVal() > 21) {
@@ -452,6 +456,8 @@ public class MouseInput implements MouseListener{
                     //hit pressed
                     else if (mx >= game.p3.betx && mx <= game.p3.betx + game.p3.bwidth && my >= game.p3.by && my <= game.p3.by + game.p3.bheight && game.p3.hcount < 4) {
                         game.p3.hit(game.deck.draw());
+                        game.p3.x2=465;
+                        game.p3.y2=75;
                         game.p3.hcount++;
                         System.out.println("HIT CLICKED");
                         if (game.p3.getHandVal() > 21) {
@@ -487,6 +493,8 @@ public class MouseInput implements MouseListener{
                     //hit pressed
                     else if (mx >= game.p4.betx && mx <= game.p4.betx + game.p4.bwidth && my >= game.p4.by && my <= game.p4.by + game.p4.bheight && game.p4.hcount < 4) {
                         game.p4.hit(game.deck.draw());
+                        game.p4.x2=465;
+                        game.p4.y2=75;
                         game.p4.hcount++;
                         System.out.println("HIT CLICKED");
                         if (game.p4.getHandVal() > 21) {
@@ -521,6 +529,8 @@ public class MouseInput implements MouseListener{
                     //hit pressed
                     else if (mx >= game.p5.betx && mx <= game.p5.betx + game.p5.bwidth && my >= game.p5.by && my <= game.p5.by + game.p5.bheight && game.p5.hcount < 4) {
                         game.p5.hit(game.deck.draw());
+                        game.p5.x2=465;
+                        game.p5.y2=75;
                         game.p5.hcount++;
                         System.out.println("HIT CLICKED");
                         if (game.p5.getHandVal() > 21) {
@@ -555,6 +565,8 @@ public class MouseInput implements MouseListener{
                     //hit pressed
                     else if (mx >= game.p6.betx && mx <= game.p6.betx + game.p6.bwidth && my >= game.p6.by && my <= game.p6.by + game.p6.bheight && game.p6.hcount < 4) {
                         game.p6.hit(game.deck.draw());
+                        game.p6.x2=465;
+                        game.p6.y2=75;
                         game.p6.hcount++;
                         System.out.println("HIT CLICKED");
                         if (game.p6.getHandVal() > 21) {
@@ -589,6 +601,8 @@ public class MouseInput implements MouseListener{
                     //hit pressed
                     else if (mx >= game.p7.betx && mx <= game.p7.betx + game.p7.bwidth && my >= game.p7.by && my <= game.p7.by + game.p7.bheight && game.p7.hcount < 4) {
                         game.p7.hit(game.deck.draw());
+                        game.p7.x2=465;
+                        game.p7.y2=75;
                         game.p7.hcount++;
                         System.out.println("HIT CLICKED");
                         if (game.p7.getHandVal() > 21) {

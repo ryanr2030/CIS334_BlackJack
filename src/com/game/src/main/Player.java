@@ -73,6 +73,10 @@ public class Player {
                 drawHand(g);
                 drawButtons(g);
             }
+            else if (count>2){
+                drawHand(g);
+                drawButtons(g);
+            }
         }
 
     }
@@ -237,16 +241,42 @@ public class Player {
                 g.drawImage(card2, (int) x+40, (int) y, null);
             }
             if (card3 !=null) {
-                g.drawImage(card3, (int) x+55, (int) y, null);
+                if(count==3){
+                    if(x2 == x && y2 == y){
+                        g.drawImage(card3, (int) x+55, (int) y, null);
+                    }
+                }
+                else {
+                    g.drawImage(card3, (int) x + 55, (int) y, null);
+                }
             }
             if (card4 !=null) {
-                g.drawImage(card4, (int) x+70, (int) y, null);
+                if(count==4) {
+                    if (x2 == x && y2 == y) {
+                        g.drawImage(card4, (int) x + 70, (int) y, null);
+                    }
+                }
+                else
+                    g.drawImage(card4, (int) x+70, (int) y, null);
             }
             if (card5 !=null) {
-                g.drawImage(card5, (int) x+85, (int) y, null);
-            }
+                if(count==5) {
+                    if (x2 == x && y2 == y) {
+                        g.drawImage(card5, (int) x + 85, (int) y, null);
+                    }
+                }
+                else
+                    g.drawImage(card5, (int) x+85, (int) y, null);
+                }
             if (card6 !=null) {
-                g.drawImage(card6, (int) x+100, (int) y, null);
+                if(count==6) {
+                    if (x2 == x && y2 == y) {
+                        g.drawImage(card6, (int) x + 100, (int) y, null);
+                    }
+                }
+                else {
+                    g.drawImage(card6, (int) x + 100, (int) y, null);
+                }
             }
 
     }
