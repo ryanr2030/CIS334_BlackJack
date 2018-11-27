@@ -6,14 +6,11 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f0a1df0f-7ca5-47c5-b6db-79e5a73f8670" name="Default" comment="Added Hit animations, Changed buf strat to 3">
+    <list default="true" id="f0a1df0f-7ca5-47c5-b6db-79e5a73f8670" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/out/production/BlackJack/com/game/src/main/Game.class" afterPath="$PROJECT_DIR$/out/production/BlackJack/com/game/src/main/Game.class" />
       <change beforePath="$PROJECT_DIR$/out/production/BlackJack/com/game/src/main/MouseInput.class" afterPath="$PROJECT_DIR$/out/production/BlackJack/com/game/src/main/MouseInput.class" />
       <change beforePath="$PROJECT_DIR$/out/production/BlackJack/com/game/src/main/Player.class" afterPath="$PROJECT_DIR$/out/production/BlackJack/com/game/src/main/Player.class" />
-      <change beforePath="$PROJECT_DIR$/src/com/game/src/main/Game.java" afterPath="$PROJECT_DIR$/src/com/game/src/main/Game.java" />
-      <change beforePath="$PROJECT_DIR$/src/com/game/src/main/MouseInput.java" afterPath="$PROJECT_DIR$/src/com/game/src/main/MouseInput.java" />
-      <change beforePath="$PROJECT_DIR$/src/com/game/src/main/Player.java" afterPath="$PROJECT_DIR$/src/com/game/src/main/Player.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -467,7 +464,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543280657865</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added Hit animations, Changed buf strat to 3">
+      <created>1543282128636</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1543282128636</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView">
