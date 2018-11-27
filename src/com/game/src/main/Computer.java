@@ -76,7 +76,7 @@ public class Computer {
 
     public void render(Graphics g){
         //card that is delt
-        g.drawImage(facedown,(int)x2, (int)y2,null);
+        g.drawImage(facedown, x2, y2,null);
         if(Game.State==Game.STATE.ANTE){
 
         }
@@ -97,13 +97,13 @@ public class Computer {
 
     //Computer panel
     public void compPanel(Graphics g){
-                g.drawImage(turn_indicator, (int)x-200, (int)y, null);
+                g.drawImage(turn_indicator, x -200, y, null);
                 Font fnt1 = new Font("arial", Font.BOLD, 100);
                 if(getHandVal()>21){
-                    g.drawString("BUST", (int)x + 50, (int)y+125 );
+                    g.drawString("BUST", x + 50, y +125 );
                 }
                 else
-                    g.drawString("Hand:" + getHandVal(), (int)x + 50, (int)y+125 );
+                    g.drawString("Hand:" + getHandVal(), x + 50, y +125 );
     }
 
     //places a card in the deck
@@ -115,10 +115,7 @@ public class Computer {
 
     //check if a player busted includes an if ace handler
     public boolean bust() {
-        if ( getHandVal() > 21)
-            return true;
-        else
-            return false;
+        return getHandVal() > 21;
     }
 
 
@@ -213,16 +210,15 @@ public class Computer {
                 aceCount++;
         }
         if (handVal>21 && aceCount!=0){
-            handVal=0;
             for(int j=1; j<=aceCount; j++) {
-                int l=0;
-                for (int i = 0; i < count; i++) {
-                    if (hand[i].getValue() == 11 && l<j ) {
+                handVal=0;
+                int l=1;
+                for (int i = 0; i <count; i++) {
+                    if (hand[i].getValue() == 11 && l<j+1 ) {
                         handVal += 1;
                         l++;
                     } else
                         handVal += hand[i].getValue();
-
                 }
                 if(handVal<=21){
                     return handVal;
@@ -232,7 +228,6 @@ public class Computer {
         }
         return handVal;
     }
-
     //Handles the bet function
     public void bet(){
         if (wallet>=100 && ante==false) {
@@ -318,7 +313,7 @@ public class Computer {
     public void drawWinner(Graphics g){
             Font fnt1 = new Font("arial", Font.BOLD,40);
             g.setFont(fnt1);
-            g.drawString(winner+" WINS!!!", (int)x-200, (int)y+200);
+            g.drawString(winner+" WINS!!!", x -200, y +200);
     }
     public void button(String title, int x, int y, int width, int height, Graphics g){
         g.setColor(Color.white);
@@ -344,24 +339,24 @@ public class Computer {
     public void drawHand(Graphics g){
         if (card1 !=null) {
             if(Game.State==Game.STATE.COMPUTER_TURN || Game.State==Game.STATE.END_GAME)
-                g.drawImage(card1, (int) x, (int) y, null);
+                g.drawImage(card1, x, y, null);
             else
-                g.drawImage(facedown, (int) x, (int) y, null);
+                g.drawImage(facedown, x, y, null);
         }
         if (card2 !=null) {
-            g.drawImage(card2, (int) x+60, (int) y, null);
+            g.drawImage(card2, x +60, y, null);
         }
         if (card3 !=null) {
-            g.drawImage(card3, (int) x+75, (int) y, null);
+            g.drawImage(card3, x +75, y, null);
         }
         if (card4 !=null) {
-            g.drawImage(card4, (int) x+90, (int) y, null);
+            g.drawImage(card4, x +90, y, null);
         }
         if (card5 !=null) {
-            g.drawImage(card5, (int) x+105, (int) y, null);
+            g.drawImage(card5, x +105, y, null);
         }
         if (card6 !=null) {
-            g.drawImage(card6, (int) x+120, (int) y, null);
+            g.drawImage(card6, x +120, y, null);
         }
 
     }
@@ -389,11 +384,11 @@ public class Computer {
     public boolean getStay(){return stay;}
 
     public int getX(){
-        return (int)x;
+        return x;
     }
 
     public int getY(){
-        return (int)y;
+        return y;
 
     }
     protected void clearHand(){

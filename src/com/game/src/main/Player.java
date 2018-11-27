@@ -60,7 +60,7 @@ public class Player {
     }
 
     public void render(Graphics g){
-        g.drawImage(facedown,(int)x2, (int)y2,null);
+        g.drawImage(facedown, x2, y2,null);
         if(Game.State==Game.STATE.ANTE){
             drawPlayerPanel(g);
             drawButtons(g);
@@ -81,6 +81,7 @@ public class Player {
 
     }
 
+    //
     //creates the dealing animation by updating a drawn facedown card that sits on the top of the deck to the location of
     //the player's hand. When it reaches the location the player's hand is redrawn
     public void deal(){
@@ -110,10 +111,7 @@ public class Player {
 
     //check if a player busted includes an if ace handler
     public boolean bust() {
-        if ( getHandVal() > 21)
-            return true;
-        else
-            return false;
+        return getHandVal() > 21;
 
     }
 
@@ -130,16 +128,15 @@ public class Player {
                 aceCount++;
         }
         if (handVal>21 && aceCount!=0){
-            handVal=0;
             for(int j=1; j<=aceCount; j++) {
-                int l=0;
-                for (int i = 0; i < count; i++) {
-                    if (hand[i].getValue() == 11 && l<j ) {
+                handVal=0;
+                int l=1;
+                for (int i = 0; i <count; i++) {
+                    if (hand[i].getValue() == 11 && l<j+1 ) {
                         handVal += 1;
                         l++;
                     } else
                         handVal += hand[i].getValue();
-
                 }
                 if(handVal<=21){
                     return handVal;
@@ -149,6 +146,7 @@ public class Player {
         }
         return handVal;
     }
+    
 
     //Handles the bet function
     public void bet(){
@@ -211,16 +209,16 @@ public class Player {
     }
     public void drawPlayerPanel(Graphics g){
         g.setColor(Color.lightGray);
-        g.fillRect(x, (int)y+125, 100, 75);
+        g.fillRect(x, y +125, 100, 75);
         g.setColor(Color.black);
         g.drawRect(x , y+125, 100, 75);
         Font fnt1 = new Font("arial", Font.BOLD,12);
         g.setFont(fnt1);
-        g.drawString("Player "+pid+": $"+wallet, (int)x+5, (int)y+145);
+        g.drawString("Player "+pid+": $"+wallet, x +5, y +145);
         if(isTurn==true){
             g.drawImage(turn_indicator, x+15, y+175, null);
         }
-        if(game.State!=Game.STATE.ANTE || game.State!=Game.STATE.NEW_HAND) {
+        if(Game.State !=Game.STATE.ANTE || Game.State !=Game.STATE.NEW_HAND) {
             if (getHandVal() > 21) {
                 fnt1 = new Font("arial", Font.BOLD, 80);
                 g.drawString("BUST", x + 35, y + 195);
@@ -235,47 +233,47 @@ public class Player {
 //DRAWS THE CARD HAND
     public void drawHand(Graphics g){
             if (card1 !=null) {
-                g.drawImage(card1, (int) x, (int) y, null);
+                g.drawImage(card1, x, y, null);
             }
             if (card2 !=null) {
-                g.drawImage(card2, (int) x+40, (int) y, null);
+                g.drawImage(card2, x +40, y, null);
             }
             if (card3 !=null) {
                 if(count==3){
                     if(x2 == x && y2 == y){
-                        g.drawImage(card3, (int) x+55, (int) y, null);
+                        g.drawImage(card3, x +55, y, null);
                     }
                 }
                 else {
-                    g.drawImage(card3, (int) x + 55, (int) y, null);
+                    g.drawImage(card3, x + 55, y, null);
                 }
             }
             if (card4 !=null) {
                 if(count==4) {
                     if (x2 == x && y2 == y) {
-                        g.drawImage(card4, (int) x + 70, (int) y, null);
+                        g.drawImage(card4, x + 70, y, null);
                     }
                 }
                 else
-                    g.drawImage(card4, (int) x+70, (int) y, null);
+                    g.drawImage(card4, x +70, y, null);
             }
             if (card5 !=null) {
                 if(count==5) {
                     if (x2 == x && y2 == y) {
-                        g.drawImage(card5, (int) x + 85, (int) y, null);
+                        g.drawImage(card5, x + 85, y, null);
                     }
                 }
                 else
-                    g.drawImage(card5, (int) x+85, (int) y, null);
+                    g.drawImage(card5, x +85, y, null);
                 }
             if (card6 !=null) {
                 if(count==6) {
                     if (x2 == x && y2 == y) {
-                        g.drawImage(card6, (int) x + 100, (int) y, null);
+                        g.drawImage(card6, x + 100, y, null);
                     }
                 }
                 else {
-                    g.drawImage(card6, (int) x + 100, (int) y, null);
+                    g.drawImage(card6, x + 100, y, null);
                 }
             }
 
@@ -313,7 +311,7 @@ public class Player {
     }
 
     public int getY(){
-        return (int)y;
+        return y;
 
     }
     protected void clearHand(){

@@ -360,7 +360,7 @@ public class MouseInput implements MouseListener{
                 turns = false;
             }
             if (turnList.size() == 1) {
-                game.State = Game.STATE.COMPUTER_TURN;
+                Game.State = Game.STATE.COMPUTER_TURN;
             }
             if(turnList.get(0).contains("P1 false")){
                 game.p1.setTurn(false);
@@ -631,6 +631,7 @@ public class MouseInput implements MouseListener{
             }
             while (game.c.getHandVal() < 22 && game.c.getHandVal() <= game.c.maxHand) {
                 game.c.hit(game.deck.draw());
+                System.out.println(game.c.getHandVal());
             }
             if(game.c.getHandVal() <22 && game.c.getHandVal()>game.c.maxHand){
                 while(game.c.winner.size()!=0){

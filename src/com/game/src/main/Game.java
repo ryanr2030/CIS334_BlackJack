@@ -78,7 +78,7 @@ public class Game extends Canvas implements Runnable{
 
         END GAME: occurs if all players run out of money or if a certain key is pressed should return back to the MENU state
     */
-    public static enum STATE{
+    public enum STATE{
         MENU,
         ANTE,
         HELP,
@@ -145,6 +145,10 @@ public class Game extends Canvas implements Runnable{
         System.exit(1);
     }
 
+    //********************************************************************************
+    //********************************************************************************
+    //********************************************************************************
+    //******************************GAME LOOP*****************************************
     @Override
     public void run() {
         init();
@@ -181,6 +185,10 @@ public class Game extends Canvas implements Runnable{
         stop();
     }
 
+    //********************************************************************************
+    //********************************************************************************
+    //********************************************************************************
+    //******************************TICK*****************************************
     //everything in the game that updates
     private void tick(){
         if(State==STATE.ANTE ) {
@@ -193,6 +201,10 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
+    //********************************************************************************
+    //********************************************************************************
+    //********************************************************************************
+    //******************************RENDER*****************************************
     //everything in the game that renders must be drawn or have another object call
     private void render(){
         //buffer strategy handles all behind the scenes buffering
@@ -244,10 +256,19 @@ public class Game extends Canvas implements Runnable{
     public static void main(String args[]){
 
         //create the instance of our game
-
+        BufferedImageLoader buf = new BufferedImageLoader();
 
         //current frame we're working in
         JFrame frame = new JFrame("Black Jack");
+
+        //mac app icon
+       /* try {
+            com.apple.eawt.Application.getApplication().setDockIconImage( buf.loadImage("/appIcon.jpeg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
+
         //Create Scale Sizes for a game window
         Game game = new Game();
         game.setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
@@ -258,7 +279,7 @@ public class Game extends Canvas implements Runnable{
         frame.add(game);
 
 
-        frame.setVisible(true);
+        frame.setVisible(false);
         //set all of its contents at or above their preferred sizes
         frame.pack();
 
