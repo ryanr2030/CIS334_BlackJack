@@ -3,14 +3,11 @@ package com.game.src.main;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Timer;
-
-import static java.lang.Thread.sleep;
 
 public class MouseInput implements MouseListener{
     public Game game;
     int i =0, test=0;
-    ArrayList<String> turnList = new ArrayList <String>();
+    ArrayList<String> turnList = new ArrayList <>();
     boolean turns=true, score=true;
 
     public MouseInput(Game game) {
@@ -90,12 +87,12 @@ public class MouseInput implements MouseListener{
             //6 Players
             if (mx >= Game.WIDTH / 2 + 225 && mx <= Game.WIDTH / 2 + 425) {
                 if (my >= 400 && my <= 450) {
-                        game.p1 = new Player(35, 300, game);
-                        game.p2 = new Player(210, 300, game);
-                        game.p3 = new Player(390, 300, game);
-                        game.p4 = new Player(565, 300, game);
-                        game.p5 = new Player(745, 300, game);
-                        game.p6 = new Player(920, 300, game);
+                        game.p1 = new Player(70, 300, game);
+                        game.p2 = new Player(260, 300, game);
+                        game.p3 = new Player(445, 300, game);
+                        game.p4 = new Player(630, 300, game);
+                        game.p5 = new Player(815, 300, game);
+                        game.p6 = new Player(1000, 300, game);
                         game.setPcount(6);
                         game.p1.setTurn(true);
                         Game.State=Game.STATE.ANTE;
@@ -328,7 +325,7 @@ public class MouseInput implements MouseListener{
                     }
                 }
 
-            } else if (game.p7 != null && mx >= game.p7.foldx && mx <= game.p7.foldx + game.p7.bwidth && game.p7.getIsTurn() == true) {
+            } else if (game.p7 != null && mx >= game.p7.foldx && mx <= game.p7.foldx + game.p7.bwidth && game.p7.getIsTurn()) {
                 //Fold Button Clicked
                 if (my >= game.p7.by && my <= game.p7.by + game.p7.bheight) {
                     System.out.println("CLICKED");
@@ -347,7 +344,7 @@ public class MouseInput implements MouseListener{
 
 
         if (Game.State == Game.STATE.PLAYER_TURN) {
-            if (turns == true) {
+            if (turns) {
                 turnList.add("P1 " + game.p1.getAnte());
                 turnList.add("P2 " + game.p2.getAnte());
                 turnList.add("P3 " + game.p3.getAnte());
